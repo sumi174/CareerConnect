@@ -86,12 +86,19 @@ mongoose.connect(process.env.MONGODB_URI)
    BASIC TEST ROUTES
 ========================================================= */
 
+const frontendPath = path.join(__dirname, "../frontend");
+
+app.use(express.static(frontendPath));
+
 app.get("/", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+});
 
-    res.send(
-        "CareerConnect Backend is Running!"
-    );
-
+app.get("/api/test", (req, res) => {
+    res.json({
+        success: true,
+        message: "CareerConnect API is working!"
+    });
 });
 
 
