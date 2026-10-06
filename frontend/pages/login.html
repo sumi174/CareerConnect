@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - CareerConnect</title>
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+
+<body class="auth-page">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <a href="../index.html"
+               class="logo">
+                CareerConnect
+            </a>
+
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="jobs.html">
+                        Jobs
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="nav-buttons">
+
+                <a href="login.html"
+                   class="login-btn">
+                    Login
+                </a>
+
+                <a href="register.html"
+                   class="register-btn">
+                    Register
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================
+         LOGIN SECTION
+    ========================== -->
+
+    <main>
+
+        <section class="auth-section login-section">
+
+
+            <div class="auth-card login-card">
+
+
+                <!-- Brand -->
+
+                <div class="auth-brand">
+
+                    <div class="auth-brand-icon">
+                        C
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            CareerConnect
+                        </h2>
+
+                        <span>
+                            Find Your Future
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Heading -->
+
+                <div class="auth-heading">
+
+                    <h1>
+                        Welcome Back 👋
+                    </h1>
+
+                    <p>
+                        Sign in to continue your career journey.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Login Form -->
+
+                <form id="loginForm">
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="password-label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                        </div>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn auth-btn"
+                        id="loginBtn">
+
+                        <span id="loginBtnText">
+                            Log In
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- Register -->
+
+                <p class="auth-footer">
+
+                    Don't have an account?
+
+                    <a href="register.html">
+                        Create an account
+                    </a>
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <p>
+            © 2026 CareerConnect. All rights reserved.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================
+         TOAST
+    ========================== -->
+
+    <div
+        id="toast"
+        class="toast">
+
+        <div class="toast-icon"
+             id="toastIcon">
+            ✓
+        </div>
+
+        <div class="toast-content">
+
+            <strong id="toastTitle">
+                Success
+            </strong>
+
+            <span id="toastMessage">
+                Login successful
+            </span>
+
+        </div>
+
+        <button
+            class="toast-close"
+            id="toastClose">
+            ×
+        </button>
+
+    </div>
+
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+        const loginBtnText =
+            document.getElementById("loginBtnText");
+
+
+        const toast =
+            document.getElementById("toast");
+
+        const toastIcon =
+            document.getElementById("toastIcon");
+
+        const toastTitle =
+            document.getElementById("toastTitle");
+
+        const toastMessage =
+            document.getElementById("toastMessage");
+
+        const toastClose =
+            document.getElementById("toastClose");
+
+
+        let toastTimer;
+
+
+
+        /* =========================
+           SHOW TOAST
+        ========================== */
+
+        function showToast(
+            type,
+            title,
+            message
+        ) {
+
+            clearTimeout(toastTimer);
+
+
+            toast.className =
+                "toast " + type;
+
+
+            toastIcon.textContent =
+                type === "success"
+                    ? "✓"
+                    : "!" ;
+
+
+            toastTitle.textContent =
+                title;
+
+
+            toastMessage.textContent =
+                message;
+
+
+            toast.classList.add("show");
+
+
+            toastTimer = setTimeout(
+                function () {
+
+                    toast.classList.remove("show");
+
+                },
+                3500
+            );
+
+        }
+
+
+
+        /* =========================
+           CLOSE TOAST
+        ========================== */
+
+        toastClose.addEventListener(
+            "click",
+            function () {
+
+                toast.classList.remove("show");
+
+            }
+        );
+
+
+
+        /* =========================
+           LOGIN
+        ========================== */
+
+        loginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+
+                /* Loading state */
+
+                loginBtn.disabled = true;
+
+                loginBtnText.textContent =
+                    "Signing in...";
+
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://localhost:5000/api/auth/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email: email,
+                                    password: password
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+
+                    if (data.success) {
+
+
+                        /* Save user */
+
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(
+                                data.user
+                            )
+                        );
+
+
+                        /* Professional toast */
+
+                        showToast(
+                            "success",
+                            "Login successful",
+                            "Welcome back to CareerConnect!"
+                        );
+
+
+                        loginBtnText.textContent =
+                            "Welcome back!";
+
+
+                        /* Redirect */
+
+                        setTimeout(
+                            function () {
+
+                                if (
+                                    data.user.role ===
+                                    "employer"
+                                ) {
+
+                                    window.location.href =
+                                        "employer-dashboard.html";
+
+                                } else {
+
+                                    window.location.href =
+                                        "job-seeker-dashboard.html";
+
+                                }
+
+                            },
+                            900
+                        );
+
+
+                    } else {
+
+
+                        loginBtn.disabled =
+                            false;
+
+
+                        loginBtnText.textContent =
+                            "Sign In";
+
+
+                        showToast(
+                            "error",
+                            "Login failed",
+                            data.message ||
+                            "Invalid email or password."
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+
+                    loginBtn.disabled =
+                        false;
+
+
+                    loginBtnText.textContent =
+                        "Sign In";
+
+
+                    showToast(
+                        "error",
+                        "Connection error",
+                        "Unable to connect to server. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1567 @@
+/* ================================
+   CAREERCONNECT - MODERN UI
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --purple: #7c3aed;
+    --dark: #0f172a;
+    --text: #172554;
+    --muted: #64748b;
+    --light: #f8faff;
+    --border: #e2e8f0;
+    --white: #ffffff;
+    --gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+    --soft-gradient: linear-gradient(135deg, #eff6ff, #f5f3ff);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--light);
+    color: var(--text);
+}
+
+
+/* ================================
+   NAVBAR
+================================ */
+
+header {
+    position: relative;
+    z-index: 100;
+}
+
+.navbar {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    letter-spacing: -0.7px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    list-style: none;
+}
+
+.nav-links a {
+    position: relative;
+
+    text-decoration: none;
+    color: #334155;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+    left: 50%;
+    bottom: -9px;
+
+    width: 0;
+    height: 3px;
+
+    border-radius: 10px;
+    background: var(--gradient);
+
+    transform: translateX(-50%);
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.nav-links a:hover::after {
+    width: 22px;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.login-btn,
+.register-btn,
+.primary-btn,
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    padding: 11px 21px;
+
+    border-radius: 30px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    color: var(--primary);
+    background: white;
+    border: 1px solid #93c5fd;
+}
+
+.login-btn:hover {
+    background: #eff6ff;
+    transform: translateY(-2px);
+}
+
+.register-btn,
+.primary-btn {
+    border: none;
+
+    background: var(--gradient);
+    color: white;
+
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+
+    cursor: pointer;
+}
+
+.register-btn:hover,
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3);
+}
+
+.secondary-btn {
+    border: 1px solid #93c5fd;
+    color: var(--primary);
+    background: white;
+}
+
+.secondary-btn:hover {
+    background: #eff6ff;
+    transform: translateY(-2px);
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+    position: relative;
+
+    min-height: 570px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(96, 165, 250, 0.20), transparent 28%),
+        radial-gradient(circle at 85% 30%, rgba(124, 58, 237, 0.17), transparent 30%),
+        linear-gradient(135deg, #f0f7ff 0%, #ffffff 48%, #f6f1ff 100%);
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background: rgba(59, 130, 246, 0.08);
+
+    top: -130px;
+    left: -100px;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(124, 58, 237, 0.08);
+
+    bottom: -100px;
+    right: -70px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 900px;
+}
+
+.hero-small-title {
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    margin-bottom: 22px;
+
+    border-radius: 30px;
+
+    background: linear-gradient(
+        90deg,
+        #dbeafe,
+        #ede9fe
+    );
+
+    color: #1e40af;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6vw, 68px);
+
+    line-height: 1.08;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 25px;
+
+    color: #102052;
+}
+
+.hero h1 span {
+    display: block;
+
+    background: var(--gradient);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    max-width: 680px;
+
+    margin: 0 auto 35px;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+    color: var(--muted);
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+}
+
+.hero-buttons .primary-btn,
+.hero-buttons .secondary-btn {
+    min-width: 160px;
+}
+
+
+/* ================================
+   FEATURES
+================================ */
+
+.features {
+    padding: 80px 7%;
+
+    background: white;
+
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 36px;
+
+    margin-bottom: 48px;
+
+    color: #102052;
+}
+
+.feature-container {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.feature-card {
+    position: relative;
+
+    padding: 32px;
+
+    text-align: left;
+
+    background: var(--soft-gradient);
+
+    border: 1px solid rgba(226, 232, 240, 0.9);
+
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow: 0 18px 40px rgba(37, 99, 235, 0.12);
+}
+
+.feature-card:nth-child(2) {
+    background: linear-gradient(
+        135deg,
+        #f5f3ff,
+        #faf5ff
+    );
+}
+
+.feature-card:nth-child(3) {
+    background: linear-gradient(
+        135deg,
+        #ecfdf5,
+        #f0fdfa
+    );
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+
+    font-size: 19px;
+
+    color: #172554;
+}
+
+.feature-card p {
+    color: var(--muted);
+
+    line-height: 1.7;
+
+    font-size: 15px;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+    padding: 35px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f1f43,
+            #172554
+        );
+
+    color: white;
+
+    text-align: center;
+}
+
+footer p {
+    color: #cbd5e1;
+
+    font-size: 14px;
+}
+
+
+/* ================================
+   JOBS PAGE
+================================ */
+
+.jobs-section {
+    padding: 75px 7%;
+
+    min-height: 700px;
+
+    background:
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(124, 58, 237, 0.07),
+            transparent 25%
+        ),
+        #f8faff;
+}
+
+.jobs-header {
+    text-align: center;
+
+    margin-bottom: 42px;
+}
+
+.jobs-header h1 {
+    font-size: 44px;
+
+    margin-bottom: 15px;
+
+    color: #102052;
+}
+
+.jobs-header p {
+    color: var(--muted);
+
+    font-size: 17px;
+}
+
+
+/* Search */
+
+.search-box {
+    display: flex;
+
+    gap: 10px;
+
+    max-width: 1050px;
+
+    margin: 0 auto 45px;
+
+    padding: 10px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+.search-box input,
+.search-box select {
+    flex: 1;
+
+    padding: 14px 15px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    background: #f8fafc;
+
+    color: #334155;
+
+    outline: none;
+
+    transition: 0.3s ease;
+}
+
+.search-box input:focus,
+.search-box select:focus {
+    border-color: #60a5fa;
+
+    background: white;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.search-box button {
+    padding: 13px 28px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: var(--gradient);
+
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.search-box button:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+
+/* Jobs */
+
+.jobs-container {
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.job-card {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 30px;
+
+    padding: 27px;
+
+    margin-bottom: 18px;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.045);
+
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #bfdbfe;
+
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.10);
+}
+
+.job-info h2 {
+    margin-bottom: 10px;
+
+    font-size: 21px;
+
+    color: #172554;
+}
+
+.job-info p {
+    margin: 7px 0;
+
+    color: var(--muted);
+}
+
+.job-info .company {
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+
+/* ================================
+   JOB DETAILS
+================================ */
+
+.job-details-section {
+    padding: 75px 7%;
+
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(124, 58, 237, 0.08),
+            transparent 25%
+        ),
+        #f8faff;
+
+    min-height: 750px;
+}
+
+.job-details-card {
+    max-width: 950px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 48px;
+
+    border-radius: 24px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+}
+
+.job-details-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+.job-details-header h1 {
+    font-size: 38px;
+
+    margin-bottom: 10px;
+
+    color: #102052;
+}
+
+.company-name {
+    color: var(--primary);
+
+    font-weight: 700;
+
+    font-size: 18px;
+}
+
+.job-type {
+    background: #ede9fe;
+
+    color: #6d28d9;
+
+    padding: 8px 16px;
+
+    border-radius: 30px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.job-meta {
+    display: flex;
+
+    gap: 25px;
+
+    margin: 27px 0;
+
+    color: var(--muted);
+
+    flex-wrap: wrap;
+}
+
+.job-details-card hr {
+    border: none;
+
+    border-top: 1px solid #e2e8f0;
+
+    margin: 30px 0;
+}
+
+.job-description,
+.job-requirements,
+.job-responsibilities {
+    margin-bottom: 35px;
+}
+
+.job-details-card h2 {
+    margin-bottom: 15px;
+
+    color: #172554;
+}
+
+.job-description p {
+    color: var(--muted);
+
+    line-height: 1.8;
+
+    margin-bottom: 12px;
+}
+
+.job-details-card ul {
+    padding-left: 25px;
+}
+
+.job-details-card li {
+    margin-bottom: 10px;
+
+    color: #475569;
+}
+
+.apply-section {
+    margin-top: 40px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+
+/* ================================
+   AUTH PAGES
+================================ */
+
+.auth-section {
+    min-height: 750px;
+
+    padding: 70px 20px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(59, 130, 246, 0.12),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(124, 58, 237, 0.10),
+            transparent 28%
+        ),
+        #f8faff;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 100%;
+
+    max-width: 500px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    padding: 42px;
+
+    border-radius: 24px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+}
+
+.auth-card h1 {
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    font-size: 32px;
+
+    color: #102052;
+}
+
+.auth-subtitle {
+    text-align: center;
+
+    color: var(--muted);
+
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 700;
+
+    color: #334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    background: #f8fafc;
+
+    transition: 0.3s ease;
+}
+
+.form-group textarea {
+    min-height: 120px;
+
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+
+    border-color: #60a5fa;
+
+    background: white;
+
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+.auth-btn {
+    width: 100%;
+
+    border: none;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+}
+
+.auth-footer {
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: var(--muted);
+}
+
+.auth-footer a {
+    color: var(--primary);
+
+    text-decoration: none;
+
+    font-weight: 700;
+}
+
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard-section {
+    padding: 65px 7%;
+
+    min-height: 750px;
+
+    background:
+        radial-gradient(
+            circle at 90% 5%,
+            rgba(124, 58, 237, 0.07),
+            transparent 25%
+        ),
+        #f8faff;
+}
+
+.dashboard-header {
+    max-width: 1150px;
+
+    margin: 0 auto 40px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 30px;
+}
+
+.dashboard-header h1 {
+    margin-bottom: 10px;
+
+    font-size: 34px;
+
+    color: #102052;
+}
+
+.dashboard-header p {
+    color: var(--muted);
+}
+
+.dashboard-cards {
+    max-width: 1150px;
+
+    margin: 0 auto 30px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.dashboard-card {
+    position: relative;
+
+    background: white;
+
+    padding: 27px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+
+    transition: 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.09);
+}
+
+.dashboard-card h2 {
+    font-size: 34px;
+
+    background: var(--gradient);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    color: var(--muted);
+}
+
+.dashboard-content {
+    max-width: 1150px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+.dashboard-panel {
+    background: white;
+
+    padding: 30px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04);
+}
+
+.dashboard-panel h2 {
+    margin-bottom: 15px;
+
+    color: #172554;
+}
+
+.dashboard-panel p {
+    color: var(--muted);
+
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+}
+
+
+/* ================================
+   SECONDARY BUTTON
+================================ */
+
+.secondary-btn {
+    display: inline-flex;
+
+    padding: 11px 19px;
+
+    border: 1px solid #93c5fd;
+
+    border-radius: 30px;
+
+    color: var(--primary);
+
+    background: white;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: #eff6ff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ================================
+   SAVE JOB BUTTON
+================================ */
+
+.save-job-btn {
+    padding: 10px 16px;
+
+    border: 1px solid #c4b5fd;
+
+    border-radius: 25px;
+
+    background: #faf5ff;
+
+    color: #6d28d9;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.save-job-btn:hover {
+    background: #ede9fe;
+
+    transform: translateY(-2px);
+}
+
+.save-job-btn:disabled {
+    opacity: 0.7;
+
+    cursor: default;
+
+    transform: none;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 0 4%;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .feature-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+
+    .job-details-card {
+        padding: 32px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .navbar {
+        min-height: auto;
+
+        padding: 18px 5%;
+
+        flex-wrap: wrap;
+
+        gap: 18px;
+    }
+
+    .nav-links {
+        order: 3;
+
+        width: 100%;
+
+        justify-content: center;
+
+        gap: 20px;
+    }
+
+    .nav-buttons {
+        margin-left: auto;
+    }
+
+    .hero {
+        min-height: 520px;
+
+        padding: 65px 20px;
+    }
+
+    .hero h1 {
+        font-size: 44px;
+
+        letter-spacing: -1.5px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .hero-buttons a {
+        width: 100%;
+
+        max-width: 260px;
+    }
+
+    .jobs-section {
+        padding: 55px 5%;
+    }
+
+    .jobs-header h1 {
+        font-size: 34px;
+    }
+
+    .search-box {
+        flex-direction: column;
+
+        padding: 15px;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+
+    .job-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .job-details-section {
+        padding: 45px 5%;
+    }
+
+    .job-details-card {
+        padding: 28px;
+
+        border-radius: 18px;
+    }
+
+    .job-details-header {
+        flex-direction: column;
+    }
+
+    .job-details-header h1 {
+        font-size: 30px;
+    }
+
+    .auth-section {
+        padding: 50px 18px;
+    }
+
+    .auth-card {
+        padding: 30px 22px;
+    }
+
+    .dashboard-section {
+        padding: 50px 5%;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links {
+        font-size: 14px;
+
+        gap: 15px;
+    }
+
+    .nav-buttons {
+        gap: 7px;
+    }
+
+    .login-btn,
+    .register-btn {
+        padding: 9px 13px;
+
+        font-size: 12px;
+    }
+
+    .hero h1 {
+        font-size: 37px;
+    }
+
+    .hero-small-title {
+        font-size: 11px;
+
+        letter-spacing: 1px;
+    }
+
+    .features {
+        padding: 60px 5%;
+    }
+
+    .features h2 {
+        font-size: 30px;
+    }
+
+    .feature-card {
+        padding: 25px;
+    }
+
+    .job-card {
+        padding: 22px;
+    }
+}
+/* ================================
+   PROFESSIONAL LOGIN PAGE
+================================ */
+
+.auth-page {
+    background: #f8faff;
+}
+
+
+/* Auth brand */
+
+.auth-brand {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-bottom: 30px;
+}
+
+.auth-brand-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: var(--gradient);
+
+    color: white;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 20px
+        rgba(37, 99, 235, 0.25);
+}
+
+.auth-brand h2 {
+    font-size: 21px;
+
+    margin-bottom: 2px;
+
+    background: var(--gradient);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+}
+
+.auth-brand span {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* Auth heading */
+
+.auth-heading {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.auth-heading h1 {
+    margin-bottom: 8px;
+
+    font-size: 30px;
+
+    color: #102052;
+}
+
+.auth-heading p {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+
+/* Login card */
+
+.login-card {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: var(--gradient);
+}
+
+
+/* Password label */
+
+.password-label-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+/* Login button */
+
+.login-card .auth-btn {
+    min-height: 50px;
+
+    font-size: 15px;
+}
+
+.login-card .auth-btn:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ================================
+   TOAST NOTIFICATION
+================================ */
+
+.toast {
+    position: fixed;
+
+    top: 25px;
+    right: 25px;
+
+    z-index: 9999;
+
+    width: 360px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 15px 17px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(15, 23, 42, 0.15);
+
+    transform:
+        translateX(120%);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        all 0.4s ease;
+}
+
+.toast.show {
+    transform:
+        translateX(0);
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.toast-icon {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+
+    color: #15803d;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.toast.error .toast-icon {
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.toast-content {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.toast-content strong {
+    color: #172554;
+
+    font-size: 14px;
+}
+
+.toast-content span {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+.toast-close {
+    border: none;
+
+    background: transparent;
+
+    color: #94a3b8;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    line-height: 1;
+
+    padding: 3px;
+}
+
+.toast-close:hover {
+    color: #334155;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .toast {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+
+        width: auto;
+    }
+
+    .auth-heading h1 {
+        font-size: 27px;
+    }
+
+}

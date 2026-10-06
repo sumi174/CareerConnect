@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Job Details - CareerConnect</title>
+
+<link rel="stylesheet"
+      href="../css/style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- =========================
+     HEADER
+========================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CareerConnect
+        </div>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="../index.html">
+                    Home
+                </a>
+            </li>
+
+
+            <li>
+                <a href="jobs.html">
+                    Jobs
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#"
+                   onclick="return false;">
+                    About
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#"
+                   onclick="return false;">
+                    Contact
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- Dynamic Navbar -->
+
+        <div
+            class="nav-buttons"
+            id="navButtons"
+        >
+
+            <a
+                href="login.html"
+                class="login-btn"
+            >
+                Login
+            </a>
+
+
+            <a
+                href="register.html"
+                class="register-btn"
+            >
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================== -->
+
+<main>
+
+    <section class="job-details-section">
+
+        <div
+            class="job-details-card"
+            id="jobDetails"
+        >
+
+            <p>
+                Loading job details...
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <p>
+        © 2026 CareerConnect. All rights reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+    /* ==================================================
+       NAVBAR
+    ================================================== */
+
+    const loggedInUser =
+        JSON.parse(
+            localStorage.getItem("user")
+        );
+
+
+    const navButtons =
+        document.getElementById(
+            "navButtons"
+        );
+
+
+    if (loggedInUser) {
+
+        if (
+            loggedInUser.role ===
+            "job_seeker"
+        ) {
+
+            navButtons.innerHTML = `
+
+                <a
+                    href="job-seeker-dashboard.html"
+                    class="login-btn"
+                >
+                    Dashboard
+                </a>
+
+                <button
+                    type="button"
+                    class="register-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            `;
+
+        }
+
+        else if (
+            loggedInUser.role ===
+            "employer"
+        ) {
+
+            navButtons.innerHTML = `
+
+                <a
+                    href="employer-dashboard.html"
+                    class="login-btn"
+                >
+                    Dashboard
+                </a>
+
+                <button
+                    type="button"
+                    class="register-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            `;
+
+        }
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                function () {
+
+                    localStorage.removeItem(
+                        "user"
+                    );
+
+                    window.location.href =
+                        "../index.html";
+
+                }
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       JOB DETAILS
+    ================================================== */
+
+    const jobDetails =
+        document.getElementById(
+            "jobDetails"
+        );
+
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const jobId =
+        urlParams.get("id");
+
+
+
+    /* ==================================================
+       LOAD JOB
+    ================================================== */
+
+    async function loadJobDetails() {
+
+        if (!jobId) {
+
+            jobDetails.innerHTML = `
+
+                <div class="error-message">
+
+                    <h2>
+                        Job Not Found
+                    </h2>
+
+                    <p>
+                        No job ID was provided.
+                    </p>
+
+                    <a
+                        href="jobs.html"
+                        class="secondary-btn"
+                    >
+                        Back to Jobs
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `http://localhost:5000/api/jobs/${jobId}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                jobDetails.innerHTML = `
+
+                    <div class="error-message">
+
+                        <h2>
+                            Job Not Found
+                        </h2>
+
+                        <p>
+                            This job may have been
+                            removed or is no longer available.
+                        </p>
+
+                        <a
+                            href="jobs.html"
+                            class="secondary-btn"
+                        >
+                            Browse Jobs
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const job =
+                data.job;
+
+
+
+            /* ==================================================
+               JOB UI
+            ================================================== */
+
+            jobDetails.innerHTML = `
+
+                <div class="job-details-header">
+
+                    <div>
+
+                        <h1>
+                            ${job.title}
+                        </h1>
+
+                        <p class="company-name">
+                            ${job.company}
+                        </p>
+
+                    </div>
+
+                    <span class="job-type">
+                        Full Time
+                    </span>
+
+                </div>
+
+
+                <div class="job-meta">
+
+                    <span>
+                        📍 ${job.location}
+                    </span>
+
+                    <span>
+                        💰 ${
+                            job.salary ||
+                            "Salary not specified"
+                        }
+                    </span>
+
+                    <span>
+                        🕒 Full Time
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                <div class="job-description">
+
+                    <h2>
+                        Job Description
+                    </h2>
+
+                    <p>
+                        ${job.description}
+                    </p>
+
+                </div>
+
+
+                <div class="job-requirements">
+
+                    <h2>
+                        Requirements
+                    </h2>
+
+                    <p>
+                        ${
+                            job.requirements ||
+                            "No requirements specified."
+                        }
+                    </p>
+
+                </div>
+
+
+                <!-- APPLY -->
+
+                <div class="apply-section">
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        id="applyBtn"
+                    >
+                        Apply Now
+                    </button>
+
+                </div>
+
+
+                <!-- SUCCESS MESSAGE -->
+
+                <div
+                    id="successMessage"
+                    style="
+                        display:none;
+                        margin-top:20px;
+                        padding:16px;
+                        border-radius:8px;
+                        background:#e8f7ee;
+                        border:1px solid #b7e4c7;
+                    "
+                >
+
+                    <strong>
+                        Application submitted successfully!
+                    </strong>
+
+                    <p style="margin:8px 0 0;">
+                        Your application has been sent
+                        successfully. Redirecting to your
+                        dashboard...
+                    </p>
+
+                </div>
+
+
+                <!-- APPLICATION FORM -->
+
+                <div
+                    id="applicationForm"
+                    style="
+                        display:none;
+                        margin-top:30px;
+                    "
+                >
+
+                    <hr>
+
+
+                    <h2>
+                        Apply for this Job
+                    </h2>
+
+
+                    <p>
+                        Submit your application with
+                        a short cover letter.
+                    </p>
+
+
+                    <form id="applyForm">
+
+                        <div class="form-group">
+
+                            <label for="coverLetter">
+                                Cover Letter
+                            </label>
+
+
+                            <textarea
+                                id="coverLetter"
+                                rows="7"
+                                placeholder="Tell the employer why you're a good fit for this position..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div
+                            style="
+                                display:flex;
+                                gap:12px;
+                                margin-top:15px;
+                            "
+                        >
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                                id="submitApplicationBtn"
+                            >
+                                Submit Application
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="secondary-btn"
+                                id="cancelApplicationBtn"
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            `;
+
+
+
+            /* ==================================================
+               ELEMENTS
+            ================================================== */
+
+            const applyBtn =
+                document.getElementById(
+                    "applyBtn"
+                );
+
+
+            const applicationForm =
+                document.getElementById(
+                    "applicationForm"
+                );
+
+
+            const applyForm =
+                document.getElementById(
+                    "applyForm"
+                );
+
+
+            const cancelApplicationBtn =
+                document.getElementById(
+                    "cancelApplicationBtn"
+                );
+
+
+            const submitApplicationBtn =
+                document.getElementById(
+                    "submitApplicationBtn"
+                );
+
+
+            const successMessage =
+                document.getElementById(
+                    "successMessage"
+                );
+
+
+
+            /* ==================================================
+               CHECK ALREADY APPLIED
+            ================================================== */
+
+            await checkAlreadyApplied(
+                jobId,
+                applyBtn
+            );
+
+
+
+            /* ==================================================
+               APPLY BUTTON
+            ================================================== */
+
+            applyBtn.addEventListener(
+                "click",
+                function () {
+
+                    const user =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "user"
+                            )
+                        );
+
+
+                    if (!user) {
+
+                        showMessage(
+                            "Please login as a job seeker to apply.",
+                            "error"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "login.html";
+
+                            },
+                            1200
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        user.role !==
+                        "job_seeker"
+                    ) {
+
+                        showMessage(
+                            "Only job seekers can apply for jobs.",
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    applicationForm.style.display =
+                        "block";
+
+
+                    applyBtn.style.display =
+                        "none";
+
+
+                    applicationForm.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                }
+            );
+
+
+
+            /* ==================================================
+               CANCEL
+            ================================================== */
+
+            cancelApplicationBtn.addEventListener(
+                "click",
+                function () {
+
+                    applicationForm.style.display =
+                        "none";
+
+
+                    applyBtn.style.display =
+                        "inline-block";
+
+                }
+            );
+
+
+
+            /* ==================================================
+               SUBMIT APPLICATION
+            ================================================== */
+
+            applyForm.addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const user =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "user"
+                            )
+                        );
+
+
+                    if (!user) {
+
+                        showMessage(
+                            "Your session has expired. Please login again.",
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        user.role !==
+                        "job_seeker"
+                    ) {
+
+                        showMessage(
+                            "Only job seekers can apply for jobs.",
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    const coverLetter =
+                        document.getElementById(
+                            "coverLetter"
+                        ).value.trim();
+
+
+                    if (!coverLetter) {
+
+                        showMessage(
+                            "Please write a cover letter before submitting.",
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    /* Disable button */
+
+                    submitApplicationBtn.disabled =
+                        true;
+
+
+                    submitApplicationBtn.textContent =
+                        "Submitting...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "http://localhost:5000/api/applications",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            job:
+                                                jobId,
+
+                                            applicant:
+                                                user.id,
+
+                                            coverLetter:
+                                                coverLetter
+
+                                        })
+                                }
+                            );
+
+
+                        const result =
+                            await response.json();
+
+
+
+                        /* ======================================
+                           SUCCESS
+                        ====================================== */
+
+                        if (
+                            response.ok &&
+                            result.success
+                        ) {
+
+                            applicationForm.style.display =
+                                "none";
+
+
+                            successMessage.style.display =
+                                "block";
+
+
+                            applyBtn.style.display =
+                                "none";
+
+
+                            /*
+                                Redirect after 2 seconds
+                            */
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        "job-seeker-dashboard.html";
+
+                                },
+                                2000
+                            );
+
+
+                            return;
+
+                        }
+
+
+
+                        /* ======================================
+                           BACKEND ERROR
+                        ====================================== */
+
+                        showMessage(
+                            result.message ||
+                            "Unable to submit application.",
+                            "error"
+                        );
+
+
+                        submitApplicationBtn.disabled =
+                            false;
+
+
+                        submitApplicationBtn.textContent =
+                            "Submit Application";
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Application error:",
+                            error
+                        );
+
+
+                        showMessage(
+                            "Unable to connect to the server. Please try again.",
+                            "error"
+                        );
+
+
+                        submitApplicationBtn.disabled =
+                            false;
+
+
+                        submitApplicationBtn.textContent =
+                            "Submit Application";
+
+                    }
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Load job details error:",
+                error
+            );
+
+
+            jobDetails.innerHTML = `
+
+                <div class="error-message">
+
+                    <h2>
+                        Something went wrong
+                    </h2>
+
+                    <p>
+                        Unable to load this job.
+                        Please try again later.
+                    </p>
+
+                    <a
+                        href="jobs.html"
+                        class="secondary-btn"
+                    >
+                        Back to Jobs
+                    </a>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       CHECK ALREADY APPLIED
+    ================================================== */
+
+    async function checkAlreadyApplied(
+        jobId,
+        applyBtn
+    ) {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem(
+                    "user"
+                )
+            );
+
+
+        /*
+            If user is not logged in,
+            don't check applications.
+        */
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+        if (
+            user.role !==
+            "job_seeker"
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `http://localhost:5000/api/applications/job-seeker/${user.id}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !data.success ||
+                !Array.isArray(
+                    data.applications
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            const alreadyApplied =
+                data.applications.some(
+                    function (application) {
+
+                        const applicationJob =
+                            application.job;
+
+
+                        if (!applicationJob) {
+
+                            return false;
+
+                        }
+
+
+                        const applicationJobId =
+                            applicationJob._id ||
+                            applicationJob;
+
+
+                        return (
+                            String(
+                                applicationJobId
+                            ) ===
+                            String(jobId)
+                        );
+
+                    }
+                );
+
+
+            if (alreadyApplied) {
+
+                applyBtn.textContent =
+                    "Already Applied";
+
+
+                applyBtn.disabled =
+                    true;
+
+
+                applyBtn.style.opacity =
+                    "0.7";
+
+
+                applyBtn.style.cursor =
+                    "not-allowed";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Check application error:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       PROFESSIONAL MESSAGE
+    ================================================== */
+
+    function showMessage(
+        message,
+        type
+    ) {
+
+        const oldMessage =
+            document.getElementById(
+                "temporaryMessage"
+            );
+
+
+        if (oldMessage) {
+
+            oldMessage.remove();
+
+        }
+
+
+        const messageBox =
+            document.createElement(
+                "div"
+            );
+
+
+        messageBox.id =
+            "temporaryMessage";
+
+
+        messageBox.textContent =
+            message;
+
+
+        messageBox.style.position =
+            "fixed";
+
+
+        messageBox.style.top =
+            "90px";
+
+
+        messageBox.style.right =
+            "25px";
+
+
+        messageBox.style.zIndex =
+            "9999";
+
+
+        messageBox.style.padding =
+            "14px 20px";
+
+
+        messageBox.style.borderRadius =
+            "8px";
+
+
+        messageBox.style.fontSize =
+            "15px";
+
+
+        messageBox.style.fontWeight =
+            "500";
+
+
+        messageBox.style.boxShadow =
+            "0 5px 20px rgba(0,0,0,0.15)";
+
+
+        if (type === "error") {
+
+            messageBox.style.background =
+                "#fdecec";
+
+
+            messageBox.style.color =
+                "#b42318";
+
+
+            messageBox.style.border =
+                "1px solid #f5c2c0";
+
+        } else {
+
+            messageBox.style.background =
+                "#e8f7ee";
+
+
+            messageBox.style.color =
+                "#176b3a";
+
+
+            messageBox.style.border =
+                "1px solid #b7e4c7";
+
+        }
+
+
+        document.body.appendChild(
+            messageBox
+        );
+
+
+        setTimeout(
+            function () {
+
+                messageBox.remove();
+
+            },
+            3500
+        );
+
+    }
+
+
+
+    /* ==================================================
+       INITIAL LOAD
+    ================================================== */
+
+    loadJobDetails();
+
+</script>
+```
+
+</body>
+
+</html>

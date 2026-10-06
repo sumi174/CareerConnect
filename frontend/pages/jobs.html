@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Jobs - CareerConnect</title>
+
+<link rel="stylesheet"
+      href="../css/style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- =========================
+     HEADER
+========================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            CareerConnect
+        </div>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="../index.html">
+                    Home
+                </a>
+            </li>
+
+
+            <li>
+                <a href="jobs.html">
+                    Jobs
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#"
+                   onclick="return false;">
+                    About
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#"
+                   onclick="return false;">
+                    Contact
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- Dynamic Navbar -->
+
+        <div
+            class="nav-buttons"
+            id="navButtons"
+        >
+
+            <a
+                href="login.html"
+                class="login-btn"
+            >
+                Login
+            </a>
+
+
+            <a
+                href="register.html"
+                class="register-btn"
+            >
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================== -->
+
+<main>
+
+    <section class="jobs-section">
+
+
+        <!-- =========================
+             JOBS HEADER
+        ========================== -->
+
+        <div class="jobs-header">
+
+            <h1>
+                Find Your Next Opportunity
+            </h1>
+
+
+            <p>
+                Explore jobs and internships that match
+                your skills and career goals.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             SEARCH & FILTER
+        ========================== -->
+
+        <div class="search-box">
+
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by job title, company or keyword..."
+            >
+
+
+            <select id="categoryFilter">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option value="web development">
+                    Web Development
+                </option>
+
+                <option value="software engineering">
+                    Software Engineering
+                </option>
+
+                <option value="marketing">
+                    Marketing
+                </option>
+
+                <option value="graphic design">
+                    Graphic Design
+                </option>
+
+                <option value="data science">
+                    Data Science
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="locationFilter"
+                placeholder="Location..."
+            >
+
+
+            <input
+                type="text"
+                id="companyFilter"
+                placeholder="Company..."
+            >
+
+
+            <button
+                type="button"
+                id="searchBtn"
+            >
+                Search
+            </button>
+
+
+            <button
+                type="button"
+                id="clearBtn"
+            >
+                Clear Filters
+            </button>
+
+        </div>
+
+
+
+        <!-- =========================
+             RESULT COUNT
+        ========================== -->
+
+        <p id="resultCount">
+            Loading jobs...
+        </p>
+
+
+
+        <!-- =========================
+             JOBS CONTAINER
+        ========================== -->
+
+        <div
+            class="jobs-container"
+            id="jobsContainer"
+        >
+
+            <p>
+                Loading jobs...
+            </p>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <p>
+        © 2026 CareerConnect. All rights reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+    /* ==================================================
+       ELEMENTS
+    ================================================== */
+
+    const jobsContainer =
+        document.getElementById(
+            "jobsContainer"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const categoryFilter =
+        document.getElementById(
+            "categoryFilter"
+        );
+
+
+    const locationFilter =
+        document.getElementById(
+            "locationFilter"
+        );
+
+
+    const companyFilter =
+        document.getElementById(
+            "companyFilter"
+        );
+
+
+    const searchBtn =
+        document.getElementById(
+            "searchBtn"
+        );
+
+
+    const clearBtn =
+        document.getElementById(
+            "clearBtn"
+        );
+
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+
+    const navButtons =
+        document.getElementById(
+            "navButtons"
+        );
+
+
+    let allJobs = [];
+
+
+
+    /* ==================================================
+       CURRENT USER
+    ================================================== */
+
+    const currentUser =
+        JSON.parse(
+            localStorage.getItem(
+                "user"
+            )
+        );
+
+
+
+    /* ==================================================
+       NAVBAR
+    ================================================== */
+
+    function setupNavbar() {
+
+        if (!currentUser) {
+
+            return;
+
+        }
+
+
+        if (
+            currentUser.role ===
+            "job_seeker"
+        ) {
+
+            navButtons.innerHTML = `
+
+                <a
+                    href="job-seeker-dashboard.html"
+                    class="login-btn"
+                >
+                    Dashboard
+                </a>
+
+
+                <button
+                    type="button"
+                    class="register-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            `;
+
+        }
+
+        else if (
+            currentUser.role ===
+            "employer"
+        ) {
+
+            navButtons.innerHTML = `
+
+                <a
+                    href="employer-dashboard.html"
+                    class="login-btn"
+                >
+                    Dashboard
+                </a>
+
+
+                <button
+                    type="button"
+                    class="register-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            `;
+
+        }
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                function () {
+
+                    localStorage.removeItem(
+                        "user"
+                    );
+
+
+                    window.location.href =
+                        "../index.html";
+
+                }
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       LOAD JOBS
+    ================================================== */
+
+    async function loadJobs() {
+
+        showJobsLoading();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/jobs"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                response.ok &&
+                data.success
+            ) {
+
+                allJobs =
+                    Array.isArray(
+                        data.jobs
+                    )
+                        ? data.jobs
+                        : [];
+
+
+                displayJobs(
+                    allJobs
+                );
+
+
+            } else {
+
+                showJobsError(
+                    data.message ||
+                    "Unable to load jobs."
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Load jobs error:",
+                error
+            );
+
+
+            showJobsError(
+                "Unable to connect to the server. Please try again."
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       LOADING STATE
+    ================================================== */
+
+    function showJobsLoading() {
+
+        resultCount.textContent =
+            "Loading jobs...";
+
+
+        jobsContainer.innerHTML = `
+
+            <div class="jobs-state">
+
+                <p>
+                    Loading available jobs...
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* ==================================================
+       ERROR STATE
+    ================================================== */
+
+    function showJobsError(
+        message
+    ) {
+
+        resultCount.textContent =
+            "Unable to load jobs";
+
+
+        jobsContainer.innerHTML = `
+
+            <div class="jobs-state">
+
+                <h3>
+                    Something went wrong
+                </h3>
+
+                <p>
+                    ${message}
+                </p>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    id="retryJobsBtn"
+                >
+                    Try Again
+                </button>
+
+            </div>
+
+        `;
+
+
+        const retryBtn =
+            document.getElementById(
+                "retryJobsBtn"
+            );
+
+
+        if (retryBtn) {
+
+            retryBtn.addEventListener(
+                "click",
+                loadJobs
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       DISPLAY JOBS
+    ================================================== */
+
+    function displayJobs(
+        jobs
+    ) {
+
+        jobsContainer.innerHTML =
+            "";
+
+
+        resultCount.textContent =
+            `${jobs.length} job(s) found`;
+
+
+        if (
+            !Array.isArray(jobs) ||
+            jobs.length === 0
+        ) {
+
+            jobsContainer.innerHTML = `
+
+                <div class="jobs-state">
+
+                    <h3>
+                        No jobs found
+                    </h3>
+
+                    <p>
+                        We couldn't find any jobs
+                        matching your current filters.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="resetSearchBtn"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+            `;
+
+
+            const resetSearchBtn =
+                document.getElementById(
+                    "resetSearchBtn"
+                );
+
+
+            if (resetSearchBtn) {
+
+                resetSearchBtn.addEventListener(
+                    "click",
+                    clearFilters
+                );
+
+            }
+
+
+            return;
+
+        }
+
+
+
+        jobs.forEach(
+            function (job) {
+
+                const jobCard =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                jobCard.className =
+                    "job-card";
+
+
+                jobCard.innerHTML = `
+
+                    <div class="job-info">
+
+                        <h2>
+                            ${job.title || "Untitled Position"}
+                        </h2>
+
+
+                        <p class="company">
+                            ${job.company || "Company not specified"}
+                        </p>
+
+
+                        <p>
+                            📍 ${job.location || "Location not specified"}
+                        </p>
+
+
+                        <p>
+                            💰 ${
+                                job.salary ||
+                                "Salary not specified"
+                            }
+                        </p>
+
+
+                        <p>
+                            ${job.description || "No description available."}
+                        </p>
+
+                    </div>
+
+
+                    <div class="job-card-actions">
+
+                        <a
+                            href="job-details.html?id=${job._id}"
+                            class="primary-btn"
+                        >
+                            View Details
+                        </a>
+
+
+                        <button
+                            type="button"
+                            class="save-job-btn"
+                            data-job-id="${job._id}"
+                        >
+                            ⭐ Save Job
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                jobsContainer.appendChild(
+                    jobCard
+                );
+
+            }
+        );
+
+
+        setupSaveButtons();
+
+    }
+
+
+
+    /* ==================================================
+       SAVE BUTTONS
+    ================================================== */
+
+    function setupSaveButtons() {
+
+        const saveButtons =
+            document.querySelectorAll(
+                ".save-job-btn"
+            );
+
+
+        saveButtons.forEach(
+            function (button) {
+
+                const jobId =
+                    button.getAttribute(
+                        "data-job-id"
+                    );
+
+
+                /*
+                    Check if this job is already saved.
+                */
+
+                if (currentUser) {
+
+                    checkIfJobSaved(
+                        jobId,
+                        button
+                    );
+
+                }
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        saveJob(
+                            button,
+                            jobId
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* ==================================================
+       CHECK SAVED JOB
+    ================================================== */
+
+    async function checkIfJobSaved(
+        jobId,
+        button
+    ) {
+
+        if (!currentUser) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `http://localhost:5000/api/saved-jobs/${currentUser.id}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success ||
+                !Array.isArray(
+                    data.savedJobs
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            const isSaved =
+                data.savedJobs.some(
+                    function (savedJob) {
+
+                        const savedJobData =
+                            savedJob.job;
+
+
+                        if (!savedJobData) {
+
+                            return false;
+
+                        }
+
+
+                        const savedJobId =
+                            savedJobData._id ||
+                            savedJobData;
+
+
+                        return (
+                            String(
+                                savedJobId
+                            ) ===
+                            String(jobId)
+                        );
+
+                    }
+                );
+
+
+            if (isSaved) {
+
+                button.textContent =
+                    "⭐ Saved";
+
+
+                button.disabled =
+                    true;
+
+
+                button.style.opacity =
+                    "0.7";
+
+
+                button.style.cursor =
+                    "not-allowed";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Check saved job error:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       SAVE JOB
+    ================================================== */
+
+    async function saveJob(
+        button,
+        jobId
+    ) {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem(
+                    "user"
+                )
+            );
+
+
+        /* User not logged in */
+
+        if (!user) {
+
+            showToast(
+                "Please login to save jobs.",
+                "error"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "login.html";
+
+                },
+                1200
+            );
+
+
+            return;
+
+        }
+
+
+        /* Only job seeker */
+
+        if (
+            user.role !==
+            "job_seeker"
+        ) {
+
+            showToast(
+                "Only job seekers can save jobs.",
+                "error"
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+            Prevent double click.
+        */
+
+        if (
+            button.disabled
+        ) {
+
+            return;
+
+        }
+
+
+        button.disabled =
+            true;
+
+
+        const originalText =
+            button.textContent;
+
+
+        button.textContent =
+            "Saving...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/saved-jobs",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                user:
+                                    user.id,
+
+                                job:
+                                    jobId
+
+                            })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+
+            /* ==========================================
+               SUCCESS
+            ========================================== */
+
+            if (
+                response.ok &&
+                data.success
+            ) {
+
+                button.textContent =
+                    "⭐ Saved";
+
+
+                button.style.opacity =
+                    "0.7";
+
+
+                button.style.cursor =
+                    "not-allowed";
+
+
+                showToast(
+                    "Job saved successfully.",
+                    "success"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* ==========================================
+               ALREADY SAVED
+            ========================================== */
+
+            if (
+                data.message &&
+                data.message
+                    .toLowerCase()
+                    .includes("already")
+            ) {
+
+                button.textContent =
+                    "⭐ Saved";
+
+
+                button.style.opacity =
+                    "0.7";
+
+
+                button.style.cursor =
+                    "not-allowed";
+
+
+                showToast(
+                    "This job is already in your saved jobs.",
+                    "info"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* ==========================================
+               ERROR
+            ========================================== */
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                originalText;
+
+
+            showToast(
+                data.message ||
+                "Unable to save this job.",
+                "error"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Save job error:",
+                error
+            );
+
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                originalText;
+
+
+            showToast(
+                "Unable to connect to the server. Please try again.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+
+    /* ==================================================
+       FILTER JOBS
+    ================================================== */
+
+    function applyFilters() {
+
+        const searchText =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const category =
+            categoryFilter.value
+                .toLowerCase()
+                .trim();
+
+
+        const location =
+            locationFilter.value
+                .toLowerCase()
+                .trim();
+
+
+        const company =
+            companyFilter.value
+                .toLowerCase()
+                .trim();
+
+
+
+        const filteredJobs =
+            allJobs.filter(
+                function (job) {
+
+                    const title =
+                        (
+                            job.title ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const jobCompany =
+                        (
+                            job.company ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const jobLocation =
+                        (
+                            job.location ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const description =
+                        (
+                            job.description ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const requirements =
+                        (
+                            job.requirements ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+
+                    /* Search */
+
+                    const matchesSearch =
+                        !searchText ||
+
+                        title.includes(
+                            searchText
+                        ) ||
+
+                        jobCompany.includes(
+                            searchText
+                        ) ||
+
+                        jobLocation.includes(
+                            searchText
+                        ) ||
+
+                        description.includes(
+                            searchText
+                        ) ||
+
+                        requirements.includes(
+                            searchText
+                        );
+
+
+
+                    /* Category */
+
+                    const matchesCategory =
+                        !category ||
+
+                        title.includes(
+                            category
+                        ) ||
+
+                        description.includes(
+                            category
+                        ) ||
+
+                        requirements.includes(
+                            category
+                        );
+
+
+
+                    /* Location */
+
+                    const matchesLocation =
+                        !location ||
+
+                        jobLocation.includes(
+                            location
+                        );
+
+
+
+                    /* Company */
+
+                    const matchesCompany =
+                        !company ||
+
+                        jobCompany.includes(
+                            company
+                        );
+
+
+
+                    return (
+                        matchesSearch &&
+                        matchesCategory &&
+                        matchesLocation &&
+                        matchesCompany
+                    );
+
+                }
+            );
+
+
+        displayJobs(
+            filteredJobs
+        );
+
+    }
+
+
+
+    /* ==================================================
+       CLEAR FILTERS
+    ================================================== */
+
+    function clearFilters() {
+
+        searchInput.value =
+            "";
+
+
+        categoryFilter.value =
+            "";
+
+
+        locationFilter.value =
+            "";
+
+
+        companyFilter.value =
+            "";
+
+
+        displayJobs(
+            allJobs
+        );
+
+    }
+
+
+
+    /* ==================================================
+       TOAST MESSAGE
+    ================================================== */
+
+    function showToast(
+        message,
+        type = "success"
+    ) {
+
+        /*
+            Remove previous toast.
+        */
+
+        const oldToast =
+            document.getElementById(
+                "careerToast"
+            );
+
+
+        if (oldToast) {
+
+            oldToast.remove();
+
+        }
+
+
+
+        const toast =
+            document.createElement(
+                "div"
+            );
+
+
+        toast.id =
+            "careerToast";
+
+
+        toast.textContent =
+            message;
+
+
+
+        /*
+            Base styling
+        */
+
+        toast.style.position =
+            "fixed";
+
+
+        toast.style.top =
+            "90px";
+
+
+        toast.style.right =
+            "25px";
+
+
+        toast.style.zIndex =
+            "99999";
+
+
+        toast.style.maxWidth =
+            "360px";
+
+
+        toast.style.padding =
+            "14px 20px";
+
+
+        toast.style.borderRadius =
+            "8px";
+
+
+        toast.style.fontSize =
+            "15px";
+
+
+        toast.style.fontWeight =
+            "500";
+
+
+        toast.style.boxShadow =
+            "0 8px 25px rgba(0,0,0,0.15)";
+
+
+        toast.style.transition =
+            "opacity 0.3s ease";
+
+
+
+        /* Success */
+
+        if (
+            type ===
+            "success"
+        ) {
+
+            toast.style.background =
+                "#e8f7ee";
+
+
+            toast.style.color =
+                "#176b3a";
+
+
+            toast.style.border =
+                "1px solid #b7e4c7";
+
+        }
+
+
+
+        /* Error */
+
+        else if (
+            type ===
+            "error"
+        ) {
+
+            toast.style.background =
+                "#fdecec";
+
+
+            toast.style.color =
+                "#b42318";
+
+
+            toast.style.border =
+                "1px solid #f5c2c0";
+
+        }
+
+
+
+        /* Info */
+
+        else {
+
+            toast.style.background =
+                "#eef4ff";
+
+
+            toast.style.color =
+                "#1d4ed8";
+
+
+            toast.style.border =
+                "1px solid #bfdbfe";
+
+        }
+
+
+        document.body.appendChild(
+            toast
+        );
+
+
+        /*
+            Auto remove
+        */
+
+        setTimeout(
+            function () {
+
+                toast.style.opacity =
+                    "0";
+
+
+                setTimeout(
+                    function () {
+
+                        toast.remove();
+
+                    },
+                    300
+                );
+
+            },
+            3000
+        );
+
+    }
+
+
+
+    /* ==================================================
+       SEARCH BUTTON
+    ================================================== */
+
+    searchBtn.addEventListener(
+        "click",
+        function () {
+
+            applyFilters();
+
+        }
+    );
+
+
+
+    /* ==================================================
+       ENTER KEY
+    ================================================== */
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                applyFilters();
+
+            }
+
+        }
+    );
+
+
+
+    /* ==================================================
+       AUTOMATIC FILTERING
+    ================================================== */
+
+    categoryFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+
+    locationFilter.addEventListener(
+        "input",
+        applyFilters
+    );
+
+
+    companyFilter.addEventListener(
+        "input",
+        applyFilters
+    );
+
+
+
+    /* ==================================================
+       CLEAR BUTTON
+    ================================================== */
+
+    clearBtn.addEventListener(
+        "click",
+        clearFilters
+    );
+
+
+
+    /* ==================================================
+       INITIALIZATION
+    ================================================== */
+
+    setupNavbar();
+
+    loadJobs();
+
+</script>
+```
+
+</body>
+
+</html>

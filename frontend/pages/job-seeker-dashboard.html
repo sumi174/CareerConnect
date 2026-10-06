@@ -1,0 +1,2676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Job Seeker Dashboard | CareerConnect</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            background: #f6f8fb;
+        }
+
+
+        /* =========================================
+           DASHBOARD
+        ========================================= */
+
+        .dashboard-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px 20px 70px;
+        }
+
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+
+        .dashboard-header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            color: #1f2937;
+        }
+
+
+        .dashboard-header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+
+        .browse-jobs-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 22px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+
+        .browse-jobs-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================
+           STAT CARDS
+        ========================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+
+            margin-bottom: 40px;
+        }
+
+
+        .stat-card {
+            width: 100%;
+            border: 0;
+            text-align: left;
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            box-shadow:
+                0 5px 20px rgba(15, 23, 42, 0.07);
+
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s;
+
+            font-family: inherit;
+        }
+
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 12px 30px rgba(15, 23, 42, 0.12);
+        }
+
+
+        .stat-card:focus {
+            outline: 3px solid rgba(37, 99, 235, 0.2);
+        }
+
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 22px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .applications-icon {
+            background: #e8f0ff;
+        }
+
+
+        .saved-icon {
+            background: #fff0f3;
+        }
+
+
+        .interview-icon {
+            background: #eafaf1;
+        }
+
+
+        .stat-number {
+            display: block;
+
+            font-size: 30px;
+            font-weight: 800;
+
+            color: #111827;
+
+            margin-bottom: 5px;
+        }
+
+
+        .stat-title {
+            display: block;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 5px;
+        }
+
+
+        .stat-description {
+            display: block;
+
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+
+        .dashboard-section {
+            background: white;
+            border-radius: 18px;
+
+            padding: 28px;
+
+            margin-bottom: 28px;
+
+            box-shadow:
+                0 5px 20px rgba(15, 23, 42, 0.06);
+        }
+
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .section-title-wrapper h2 {
+            margin: 0 0 5px;
+
+            font-size: 22px;
+            color: #111827;
+        }
+
+
+        .section-title-wrapper p {
+            margin: 0;
+
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+
+        .section-action {
+            color: #2563eb;
+            text-decoration: none;
+
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+
+        .section-action:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================================
+           APPLICATION CARD
+        ========================================= */
+
+        .application-list {
+            display: grid;
+            gap: 15px;
+        }
+
+
+        .application-card {
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            transition: 0.2s;
+        }
+
+
+        .application-card:hover {
+            border-color: #bfdbfe;
+
+            background: #fafcff;
+        }
+
+
+        .application-info h3 {
+            margin: 0 0 7px;
+
+            color: #111827;
+
+            font-size: 17px;
+        }
+
+
+        .application-company {
+            color: #4b5563;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+
+        .application-location {
+            color: #9ca3af;
+
+            font-size: 14px;
+        }
+
+
+        .application-meta {
+            text-align: right;
+
+            min-width: 150px;
+        }
+
+
+        .application-date {
+            display: block;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+
+            margin-bottom: 9px;
+        }
+
+
+        /* =========================================
+           STATUS BADGES
+        ========================================= */
+
+        .status-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: capitalize;
+        }
+
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+
+        .status-shortlisted {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+
+        .status-hired {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+
+        .status-rejected {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+
+        /* =========================================
+           SAVED JOBS
+        ========================================= */
+
+        .saved-job-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .saved-job-card {
+            border: 1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 21px;
+
+            transition: 0.2s;
+        }
+
+
+        .saved-job-card:hover {
+            transform: translateY(-3px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.08);
+        }
+
+
+        .saved-job-card h3 {
+            margin: 0 0 8px;
+
+            color: #111827;
+
+            font-size: 17px;
+        }
+
+
+        .saved-company {
+            color: #4b5563;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .saved-location,
+        .saved-salary {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .saved-actions {
+            display: flex;
+
+            gap: 9px;
+
+            margin-top: 17px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .btn-primary,
+        .btn-secondary,
+        .btn-danger {
+            border: 0;
+
+            border-radius: 8px;
+
+            padding: 9px 13px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .btn-primary {
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+
+        .btn-secondary {
+            background: #f3f4f6;
+
+            color: #374151;
+        }
+
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+
+        .btn-danger {
+            background: #fff1f2;
+
+            color: #be123c;
+        }
+
+
+        .btn-danger:hover {
+            background: #ffe4e6;
+        }
+
+
+        /* =========================================
+           INTERVIEWS
+        ========================================= */
+
+        .interview-list {
+            display: grid;
+
+            gap: 16px;
+        }
+
+
+        .interview-card {
+            border: 1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr auto;
+
+            gap: 20px;
+
+            transition: 0.2s;
+        }
+
+
+        .interview-card:hover {
+            border-color: #bbf7d0;
+
+            background: #fbfffc;
+        }
+
+
+        .interview-job {
+            margin: 0 0 6px;
+
+            color: #111827;
+
+            font-size: 18px;
+        }
+
+
+        .interview-company {
+            color: #4b5563;
+
+            font-weight: 600;
+
+            margin-bottom: 13px;
+        }
+
+
+        .interview-details {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        .interview-detail {
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+            padding: 7px 10px;
+
+            font-size: 13px;
+
+            color: #4b5563;
+        }
+
+
+        .interview-side {
+            min-width: 150px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 10px;
+        }
+
+
+        .interview-date {
+            font-size: 13px;
+
+            color: #6b7280;
+
+            text-align: right;
+        }
+
+
+        .interview-scheduled {
+            background: #ecfdf5;
+
+            color: #047857;
+        }
+
+
+        .interview-completed {
+            background: #eff6ff;
+
+            color: #1d4ed8;
+        }
+
+
+        .interview-cancelled {
+            background: #fef2f2;
+
+            color: #b91c1c;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 45px 20px;
+
+            border: 1px dashed #d1d5db;
+
+            border-radius: 14px;
+
+            background: #fafafa;
+        }
+
+
+        .empty-icon {
+            font-size: 38px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-state h3 {
+            margin: 0 0 7px;
+
+            color: #374151;
+        }
+
+
+        .empty-state p {
+            margin: 0 0 18px;
+
+            color: #9ca3af;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           PROFILE
+        ========================================= */
+
+        .profile-card {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            background: #f8fafc;
+
+            border-radius: 14px;
+
+            padding: 22px;
+        }
+
+
+        .profile-card h3 {
+            margin: 0 0 6px;
+
+            color: #111827;
+        }
+
+
+        .profile-card p {
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           TOAST
+        ========================================= */
+
+        .dashboard-toast {
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            max-width: 360px;
+
+            padding: 14px 18px;
+
+            border-radius: 10px;
+
+            color: white;
+
+            background: #111827;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.18);
+
+            opacity: 0;
+
+            transform: translateY(15px);
+
+            pointer-events: none;
+
+            transition: 0.3s;
+
+            z-index: 9999;
+        }
+
+
+        .dashboard-toast.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        .dashboard-toast.success {
+            background: #047857;
+        }
+
+
+        .dashboard-toast.error {
+            background: #b91c1c;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .saved-job-list {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .dashboard-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .application-card {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .application-meta {
+                text-align: left;
+            }
+
+
+            .interview-card {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .interview-side {
+                align-items: flex-start;
+            }
+
+
+            .interview-date {
+                text-align: left;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .dashboard-page {
+                padding:
+                    30px 14px 50px;
+            }
+
+
+            .dashboard-section {
+                padding: 20px 16px;
+            }
+
+
+            .dashboard-header h1 {
+                font-size: 26px;
+            }
+
+
+            .section-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .profile-card {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header>
+
+    <nav>
+
+        <div class="logo">
+            <a href="../index.html">
+                CareerConnect
+            </a>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="jobs.html">
+                Browse Jobs
+            </a>
+
+            <a href="#applications">
+                My Applications
+            </a>
+
+            <a href="#savedJobs">
+                Saved Jobs
+            </a>
+
+            <a href="#interviews">
+                Interviews
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </div>
+
+
+        <div
+            class="nav-buttons"
+            id="navButtons"
+        >
+
+            <a
+                href="#"
+                class="login-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+===================================================== -->
+
+<main class="dashboard-page">
+
+
+    <!-- Dashboard Header -->
+
+    <section class="dashboard-header">
+
+        <div>
+
+            <h1>
+                Welcome,
+                <span id="welcomeName">
+                    Job Seeker
+                </span>
+                👋
+            </h1>
+
+            <p>
+                Manage your applications, saved jobs
+                and upcoming interviews.
+            </p>
+
+        </div>
+
+
+        <a
+            href="jobs.html"
+            class="browse-jobs-btn"
+        >
+            Browse Jobs
+        </a>
+
+    </section>
+
+
+    <!-- =================================================
+         STAT CARDS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+
+        <button
+            type="button"
+            class="stat-card"
+            data-target="applications"
+        >
+
+            <span
+                class="stat-icon applications-icon"
+            >
+                📄
+            </span>
+
+
+            <span
+                class="stat-number"
+                id="applicationsCount"
+            >
+                0
+            </span>
+
+
+            <span class="stat-title">
+                Applications
+            </span>
+
+
+            <span class="stat-description">
+                Track your job applications
+            </span>
+
+        </button>
+
+
+        <button
+            type="button"
+            class="stat-card"
+            data-target="savedJobs"
+        >
+
+            <span
+                class="stat-icon saved-icon"
+            >
+                ❤️
+            </span>
+
+
+            <span
+                class="stat-number"
+                id="savedJobsCount"
+            >
+                0
+            </span>
+
+
+            <span class="stat-title">
+                Saved Jobs
+            </span>
+
+
+            <span class="stat-description">
+                Jobs you saved for later
+            </span>
+
+        </button>
+
+
+        <button
+            type="button"
+            class="stat-card"
+            data-target="interviews"
+        >
+
+            <span
+                class="stat-icon interview-icon"
+            >
+                📅
+            </span>
+
+
+            <span
+                class="stat-number"
+                id="interviewsCount"
+            >
+                0
+            </span>
+
+
+            <span class="stat-title">
+                Interviews
+            </span>
+
+
+            <span class="stat-description">
+                Your upcoming interviews
+            </span>
+
+        </button>
+
+
+    </section>
+
+
+    <!-- =================================================
+         APPLICATIONS
+    ================================================== -->
+
+    <section
+        class="dashboard-section"
+        id="applications"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title-wrapper">
+
+                <h2>
+                    My Applications
+                </h2>
+
+                <p>
+                    Track the progress of your applications.
+                </p>
+
+            </div>
+
+
+            <a
+                href="jobs.html"
+                class="section-action"
+            >
+                Find More Jobs →
+            </a>
+
+        </div>
+
+
+        <div
+            id="applicationsContainer"
+            class="application-list"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading applications...
+                </h3>
+
+                <p>
+                    Please wait a moment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SAVED JOBS
+    ================================================== -->
+
+    <section
+        class="dashboard-section"
+        id="savedJobs"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title-wrapper">
+
+                <h2>
+                    Saved Jobs
+                </h2>
+
+                <p>
+                    Keep track of jobs you want to apply for.
+                </p>
+
+            </div>
+
+
+            <a
+                href="jobs.html"
+                class="section-action"
+            >
+                Browse Jobs →
+            </a>
+
+        </div>
+
+
+        <div
+            id="savedJobsContainer"
+            class="saved-job-list"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading saved jobs...
+                </h3>
+
+                <p>
+                    Please wait a moment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         INTERVIEWS
+    ================================================== -->
+
+    <section
+        class="dashboard-section"
+        id="interviews"
+    >
+
+        <div class="section-header">
+
+            <div class="section-title-wrapper">
+
+                <h2>
+                    Interviews
+                </h2>
+
+                <p>
+                    View your scheduled interviews and meeting details.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="interviewsContainer"
+            class="interview-list"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading interviews...
+                </h3>
+
+                <p>
+                    Please wait a moment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================== -->
+
+    <section class="dashboard-section">
+
+        <div class="section-header">
+
+            <div class="section-title-wrapper">
+
+                <h2>
+                    Profile
+                </h2>
+
+                <p>
+                    Keep your professional information updated.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div>
+
+                <h3>
+                    Complete your profile
+                </h3>
+
+                <p>
+                    A complete profile can help employers
+                    understand your skills and experience.
+                </p>
+
+            </div>
+
+
+            <a
+                href="profile.html"
+                class="btn-primary"
+            >
+                Edit Profile
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- Toast -->
+
+<div
+    id="dashboardToast"
+    class="dashboard-toast"
+></div>
+
+
+<script>
+
+    const API_BASE =
+        "http://localhost:5000/api";
+
+
+    /* =====================================================
+       USER
+    ===================================================== */
+
+    const user =
+        JSON.parse(
+            localStorage.getItem("user")
+        );
+
+
+    /* =====================================================
+       DOM
+    ===================================================== */
+
+    const welcomeName =
+        document.getElementById(
+            "welcomeName"
+        );
+
+    const applicationsCount =
+        document.getElementById(
+            "applicationsCount"
+        );
+
+    const savedJobsCount =
+        document.getElementById(
+            "savedJobsCount"
+        );
+
+    const interviewsCount =
+        document.getElementById(
+            "interviewsCount"
+        );
+
+    const applicationsContainer =
+        document.getElementById(
+            "applicationsContainer"
+        );
+
+    const savedJobsContainer =
+        document.getElementById(
+            "savedJobsContainer"
+        );
+
+    const interviewsContainer =
+        document.getElementById(
+            "interviewsContainer"
+        );
+
+    const toast =
+        document.getElementById(
+            "dashboardToast"
+        );
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+    }
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(
+        message,
+        type = "success"
+    ) {
+
+        toast.textContent =
+            message;
+
+        toast.className =
+            "dashboard-toast " +
+            type +
+            " show";
+
+
+        clearTimeout(
+            window.toastTimer
+        );
+
+
+        window.toastTimer =
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            }, 3000);
+
+    }
+
+
+    /* =====================================================
+       AUTH CHECK
+    ===================================================== */
+
+    if (
+        !user ||
+        user.role !== "job_seeker"
+    ) {
+
+        document.body.innerHTML = `
+
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:20px;
+                font-family:Arial,sans-serif;
+                background:#f6f8fb;
+            ">
+
+                <div style="
+                    max-width:420px;
+                    width:100%;
+                    text-align:center;
+                    background:white;
+                    padding:40px 30px;
+                    border-radius:18px;
+                    box-shadow:0 10px 40px rgba(0,0,0,.08);
+                ">
+
+                    <div style="
+                        font-size:48px;
+                        margin-bottom:15px;
+                    ">
+                        🔐
+                    </div>
+
+                    <h2 style="
+                        margin:0 0 10px;
+                        color:#111827;
+                    ">
+                        Login required
+                    </h2>
+
+                    <p style="
+                        color:#6b7280;
+                        margin-bottom:25px;
+                    ">
+                        Please login as a job seeker
+                        to access your dashboard.
+                    </p>
+
+                    <a
+                        href="login.html"
+                        style="
+                            display:inline-block;
+                            background:#2563eb;
+                            color:white;
+                            padding:12px 22px;
+                            border-radius:9px;
+                            text-decoration:none;
+                            font-weight:600;
+                        "
+                    >
+                        Go to Login
+                    </a>
+
+                </div>
+
+            </div>
+        `;
+
+    } else {
+
+        initializeDashboard();
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    function initializeDashboard() {
+
+        const displayName =
+            user.name ||
+            user.fullName ||
+            user.username ||
+            "Job Seeker";
+
+
+        welcomeName.textContent =
+            displayName;
+
+
+        setupNavigation();
+
+        loadApplications();
+
+        loadSavedJobs();
+
+        loadInterviews();
+
+    }
+
+
+    /* =====================================================
+       SMOOTH SCROLL
+    ===================================================== */
+
+    function setupNavigation() {
+
+        document
+            .querySelectorAll(
+                "[data-target]"
+            )
+            .forEach(card => {
+
+                card.addEventListener(
+                    "click",
+                    () => {
+
+                        const targetId =
+                            card.dataset.target;
+
+
+                        const target =
+                            document.getElementById(
+                                targetId
+                            );
+
+
+                        if (target) {
+
+                            target.scrollIntoView({
+                                behavior:
+                                    "smooth",
+
+                                block:
+                                    "start"
+                            });
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        document
+            .querySelectorAll(
+                'a[href^="#"]'
+            )
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    event => {
+
+                        const id =
+                            link.getAttribute(
+                                "href"
+                            );
+
+
+                        if (
+                            id === "#"
+                        ) {
+                            return;
+                        }
+
+
+                        const target =
+                            document.querySelector(
+                                id
+                            );
+
+
+                        if (target) {
+
+                            event.preventDefault();
+
+
+                            target.scrollIntoView({
+                                behavior:
+                                    "smooth",
+
+                                block:
+                                    "start"
+                            });
+
+                        }
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* =====================================================
+       APPLICATIONS
+    ===================================================== */
+
+    async function loadApplications() {
+
+        try {
+
+            applicationsContainer.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Loading applications...
+                    </h3>
+
+                    <p>
+                        Please wait a moment.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/applications/job-seeker/${user.id}`
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Unable to load applications"
+                );
+
+            }
+
+
+            const applications =
+                Array.isArray(
+                    result.applications
+                )
+                    ? result.applications
+                    : [];
+
+
+            applicationsCount.textContent =
+                applications.length;
+
+
+            if (
+                applications.length === 0
+            ) {
+
+                applicationsContainer.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            📄
+                        </div>
+
+                        <h3>
+                            No applications yet
+                        </h3>
+
+                        <p>
+                            Start applying for jobs
+                            that match your skills.
+                        </p>
+
+                        <a
+                            href="jobs.html"
+                            class="btn-primary"
+                        >
+                            Browse Jobs
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            applicationsContainer.innerHTML =
+                applications
+                    .map(
+                        application => {
+
+                            const job =
+                                application.job || {};
+
+
+                            const status =
+                                (
+                                    application.status ||
+                                    "pending"
+                                ).toLowerCase();
+
+
+                            const createdAt =
+                                application.createdAt
+                                    ? new Date(
+                                        application.createdAt
+                                    ).toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            year:
+                                                "numeric",
+                                            month:
+                                                "short",
+                                            day:
+                                                "numeric"
+                                        }
+                                    )
+                                    : "Recently";
+
+
+                            return `
+
+                                <article
+                                    class="application-card"
+                                >
+
+                                    <div
+                                        class="application-info"
+                                    >
+
+                                        <h3>
+                                            ${escapeHtml(
+                                                job.title ||
+                                                "Untitled Job"
+                                            )}
+                                        </h3>
+
+                                        <div
+                                            class="application-company"
+                                        >
+                                            ${escapeHtml(
+                                                job.company ||
+                                                "Company"
+                                            )}
+                                        </div>
+
+                                        <div
+                                            class="application-location"
+                                        >
+                                            📍
+                                            ${escapeHtml(
+                                                job.location ||
+                                                "Location not specified"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div
+                                        class="application-meta"
+                                    >
+
+                                        <span
+                                            class="application-date"
+                                        >
+                                            Applied:
+                                            ${createdAt}
+                                        </span>
+
+
+                                        <span
+                                            class="
+                                                status-badge
+                                                status-${escapeHtml(status)}
+                                            "
+                                        >
+                                            ${escapeHtml(status)}
+                                        </span>
+
+
+                                        ${
+                                            job._id
+                                                ? `
+                                                    <div
+                                                        style="
+                                                            margin-top:10px;
+                                                        "
+                                                    >
+                                                        <a
+                                                            href="job-details.html?id=${encodeURIComponent(
+                                                                job._id
+                                                            )}"
+                                                            class="btn-secondary"
+                                                        >
+                                                            View Job
+                                                        </a>
+                                                    </div>
+                                                `
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                </article>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+
+        } catch (error) {
+
+            console.error(
+                "Applications error:",
+                error
+            );
+
+
+            applicationsCount.textContent =
+                "0";
+
+
+            applicationsContainer.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        Unable to load applications
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            error.message
+                        )}
+                    </p>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="loadApplications()"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVED JOBS
+    ===================================================== */
+
+    async function loadSavedJobs() {
+
+        try {
+
+            savedJobsContainer.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Loading saved jobs...
+                    </h3>
+
+                    <p>
+                        Please wait a moment.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/saved-jobs/${user.id}`
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Unable to load saved jobs"
+                );
+
+            }
+
+
+            const savedJobs =
+                Array.isArray(
+                    result.savedJobs
+                )
+                    ? result.savedJobs
+                    : [];
+
+
+            savedJobsCount.textContent =
+                savedJobs.length;
+
+
+            if (
+                savedJobs.length === 0
+            ) {
+
+                savedJobsContainer.innerHTML = `
+
+                    <div
+                        class="empty-state"
+                        style="grid-column:1/-1;"
+                    >
+
+                        <div class="empty-icon">
+                            ❤️
+                        </div>
+
+                        <h3>
+                            No saved jobs
+                        </h3>
+
+                        <p>
+                            Save interesting jobs
+                            and come back to them later.
+                        </p>
+
+                        <a
+                            href="jobs.html"
+                            class="btn-primary"
+                        >
+                            Browse Jobs
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            savedJobsContainer.innerHTML =
+                savedJobs
+                    .map(
+                        savedJob => {
+
+                            const job =
+                                savedJob.job || {};
+
+
+                            if (
+                                !job._id
+                            ) {
+                                return "";
+                            }
+
+
+                            return `
+
+                                <article
+                                    class="saved-job-card"
+                                >
+
+                                    <h3>
+                                        ${escapeHtml(
+                                            job.title ||
+                                            "Untitled Job"
+                                        )}
+                                    </h3>
+
+
+                                    <div
+                                        class="saved-company"
+                                    >
+                                        ${escapeHtml(
+                                            job.company ||
+                                            "Company"
+                                        )}
+                                    </div>
+
+
+                                    <div
+                                        class="saved-location"
+                                    >
+                                        📍
+                                        ${escapeHtml(
+                                            job.location ||
+                                            "Location not specified"
+                                        )}
+                                    </div>
+
+
+                                    <div
+                                        class="saved-salary"
+                                    >
+                                        💰
+                                        ${escapeHtml(
+                                            job.salary ||
+                                            "Salary not specified"
+                                        )}
+                                    </div>
+
+
+                                    <div
+                                        class="saved-actions"
+                                    >
+
+                                        <a
+                                            href="job-details.html?id=${encodeURIComponent(
+                                                job._id
+                                            )}"
+                                            class="btn-primary"
+                                        >
+                                            View Details
+                                        </a>
+
+
+                                        <button
+                                            type="button"
+                                            class="btn-danger"
+                                            onclick="removeSavedJob('${job._id}')"
+                                        >
+                                            Remove
+                                        </button>
+
+                                    </div>
+
+                                </article>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+
+        } catch (error) {
+
+            console.error(
+                "Saved jobs error:",
+                error
+            );
+
+
+            savedJobsCount.textContent =
+                "0";
+
+
+            savedJobsContainer.innerHTML = `
+
+                <div
+                    class="empty-state"
+                    style="grid-column:1/-1;"
+                >
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        Unable to load saved jobs
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            error.message
+                        )}
+                    </p>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="loadSavedJobs()"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       REMOVE SAVED JOB
+    ===================================================== */
+
+    async function removeSavedJob(
+        jobId
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/saved-jobs/${user.id}/${jobId}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Unable to remove saved job"
+                );
+
+            }
+
+
+            showToast(
+                "Job removed from saved jobs.",
+                "success"
+            );
+
+
+            await loadSavedJobs();
+
+
+        } catch (error) {
+
+            console.error(
+                "Remove saved job error:",
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                "Unable to remove saved job.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       INTERVIEWS
+    ===================================================== */
+
+    async function loadInterviews() {
+
+        try {
+
+            interviewsContainer.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Loading interviews...
+                    </h3>
+
+                    <p>
+                        Please wait a moment.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/interviews/job-seeker/${user.id}`
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Unable to load interviews"
+                );
+
+            }
+
+
+            const interviews =
+                Array.isArray(
+                    result.interviews
+                )
+                    ? result.interviews
+                    : [];
+
+
+            const activeInterviews =
+                interviews.filter(
+                    interview =>
+                        interview.status !==
+                        "cancelled"
+                );
+
+
+            interviewsCount.textContent =
+                activeInterviews.length;
+
+
+            if (
+                interviews.length === 0
+            ) {
+
+                interviewsContainer.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            📅
+                        </div>
+
+                        <h3>
+                            No interviews scheduled
+                        </h3>
+
+                        <p>
+                            When an employer schedules
+                            an interview, it will appear here.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            interviewsContainer.innerHTML =
+                interviews
+                    .map(
+                        interview => {
+
+                            const job =
+                                interview.job || {};
+
+
+                            const employer =
+                                interview.employer || {};
+
+
+                            const date =
+                                interview.date
+                                    ? new Date(
+                                        interview.date
+                                    )
+                                    : null;
+
+
+                            const validDate =
+                                date &&
+                                !Number.isNaN(
+                                    date.getTime()
+                                );
+
+
+                            const formattedDate =
+                                validDate
+                                    ? date.toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            weekday:
+                                                "short",
+                                            year:
+                                                "numeric",
+                                            month:
+                                                "short",
+                                            day:
+                                                "numeric"
+                                        }
+                                    )
+                                    : "Date unavailable";
+
+
+                            const formattedTime =
+                                validDate
+                                    ? date.toLocaleTimeString(
+                                        "en-US",
+                                        {
+                                            hour:
+                                                "numeric",
+                                            minute:
+                                                "2-digit"
+                                        }
+                                    )
+                                    : "";
+
+
+                            const type =
+                                interview.type ||
+                                "online";
+
+
+                            const status =
+                                (
+                                    interview.status ||
+                                    "scheduled"
+                                ).toLowerCase();
+
+
+                            let typeLabel =
+                                "Online";
+
+
+                            let typeIcon =
+                                "💻";
+
+
+                            if (
+                                type === "phone"
+                            ) {
+
+                                typeLabel =
+                                    "Phone";
+
+                                typeIcon =
+                                    "📞";
+
+                            }
+
+
+                            if (
+                                type === "in-person"
+                            ) {
+
+                                typeLabel =
+                                    "In-person";
+
+                                typeIcon =
+                                    "📍";
+
+                            }
+
+
+                            return `
+
+                                <article
+                                    class="interview-card"
+                                >
+
+                                    <div>
+
+                                        <h3
+                                            class="interview-job"
+                                        >
+                                            ${escapeHtml(
+                                                job.title ||
+                                                "Interview"
+                                            )}
+                                        </h3>
+
+
+                                        <div
+                                            class="interview-company"
+                                        >
+                                            ${escapeHtml(
+                                                job.company ||
+                                                employer.company ||
+                                                employer.name ||
+                                                "Company"
+                                            )}
+                                        </div>
+
+
+                                        <div
+                                            class="interview-details"
+                                        >
+
+                                            <span
+                                                class="interview-detail"
+                                            >
+                                                📅
+                                                ${formattedDate}
+                                            </span>
+
+
+                                            <span
+                                                class="interview-detail"
+                                            >
+                                                🕐
+                                                ${formattedTime}
+                                            </span>
+
+
+                                            <span
+                                                class="interview-detail"
+                                            >
+                                                ${typeIcon}
+                                                ${typeLabel}
+                                            </span>
+
+
+                                            ${
+                                                type ===
+                                                "in-person" &&
+                                                interview.location
+                                                    ? `
+                                                        <span
+                                                            class="interview-detail"
+                                                        >
+                                                            📍
+                                                            ${escapeHtml(
+                                                                interview.location
+                                                            )}
+                                                        </span>
+                                                    `
+                                                    : ""
+                                            }
+
+                                        </div>
+
+
+                                        ${
+                                            interview.notes
+                                                ? `
+                                                    <p
+                                                        style="
+                                                            margin:15px 0 0;
+                                                            color:#6b7280;
+                                                            font-size:14px;
+                                                        "
+                                                    >
+                                                        <strong>
+                                                            Note:
+                                                        </strong>
+                                                        ${escapeHtml(
+                                                            interview.notes
+                                                        )}
+                                                    </p>
+                                                `
+                                                : ""
+                                        }
+
+                                    </div>
+
+
+                                    <div
+                                        class="interview-side"
+                                    >
+
+                                        <span
+                                            class="
+                                                status-badge
+                                                interview-${escapeHtml(status)}
+                                            "
+                                        >
+                                            ${escapeHtml(status)}
+                                        </span>
+
+
+                                        ${
+                                            type ===
+                                            "online" &&
+                                            interview.meetingLink &&
+                                            status ===
+                                            "scheduled"
+                                                ? `
+                                                    <a
+                                                        href="${escapeHtml(
+                                                            interview.meetingLink
+                                                        )}"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="btn-primary"
+                                                    >
+                                                        Join Interview
+                                                    </a>
+                                                `
+                                                : ""
+                                        }
+
+
+                                        ${
+                                            job._id
+                                                ? `
+                                                    <a
+                                                        href="job-details.html?id=${encodeURIComponent(
+                                                            job._id
+                                                        )}"
+                                                        class="btn-secondary"
+                                                    >
+                                                        View Job
+                                                    </a>
+                                                `
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                </article>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+
+        } catch (error) {
+
+            console.error(
+                "Interviews error:",
+                error
+            );
+
+
+            interviewsCount.textContent =
+                "0";
+
+
+            interviewsContainer.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        Unable to load interviews
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            error.message
+                        )}
+                    </p>
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        onclick="loadInterviews()"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+
+                localStorage.removeItem(
+                    "user"
+                );
+
+
+                window.location.href =
+                    "../index.html";
+
+            }
+        );
+
+</script>
+
+
+</body>
+
+</html>

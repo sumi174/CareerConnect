@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - CareerConnect</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 72px;
+            padding: 0 7%;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid #e6eaf0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #172554;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #2563eb;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-btn,
+        .register-btn,
+        .dashboard-btn,
+        .logout-btn {
+            text-decoration: none;
+            padding: 10px 17px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            color: #334155;
+        }
+
+        .register-btn,
+        .dashboard-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .dashboard-btn:hover,
+        .register-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .logout-btn:hover {
+            background: #fecaca;
+        }
+
+        /* =========================
+           PROFILE PAGE
+        ========================= */
+
+        .profile-page {
+            min-height: calc(100vh - 72px);
+            padding: 55px 7% 80px;
+        }
+
+        .profile-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 36px;
+            color: #172033;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* =========================
+           PROFILE HERO
+        ========================= */
+
+        .profile-hero {
+            background: linear-gradient(
+                135deg,
+                #172554 0%,
+                #2563eb 55%,
+                #3b82f6 100%
+            );
+
+            border-radius: 20px;
+            padding: 38px;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            gap: 28px;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.18);
+        }
+
+        /* =========================
+           PROFILE PHOTO
+        ========================= */
+
+        .photo-area {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border: 4px solid rgba(255, 255, 255, 0.85);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-initial {
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .camera-button {
+            position: absolute;
+            right: -2px;
+            bottom: 2px;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+            border: 3px solid white;
+
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .camera-button:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+        .profile-hero-info {
+            flex: 1;
+        }
+
+        .profile-hero-info h2 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .profile-hero-info .email {
+            opacity: 0.9;
+            margin-bottom: 13px;
+            font-size: 15px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 30px;
+
+            background: rgba(255, 255, 255, 0.17);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           PHOTO CONTROLS
+        ========================= */
+
+        .photo-controls {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .upload-btn,
+        .remove-photo-btn {
+            border: none;
+            padding: 9px 14px;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .upload-btn {
+            background: white;
+            color: #2563eb;
+        }
+
+        .remove-photo-btn {
+            background: rgba(255, 255, 255, 0.14);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .upload-btn:hover {
+            background: #eff6ff;
+        }
+
+        .remove-photo-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .photo-help {
+            margin-top: 8px;
+            font-size: 12px;
+            opacity: 0.78;
+        }
+
+        #profileImageInput {
+            display: none;
+        }
+
+        /* =========================
+           CONTENT GRID
+        ========================= */
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 25px;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid #e5e9f0;
+            border-radius: 16px;
+            padding: 28px;
+
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04);
+        }
+
+        .profile-card h2 {
+            font-size: 20px;
+            margin-bottom: 7px;
+            color: #172033;
+        }
+
+        .card-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           OVERVIEW
+        ========================= */
+
+        .overview-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .overview-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .overview-label {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+        }
+
+        .overview-value {
+            color: #334155;
+            font-size: 15px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d7dee8;
+            border-radius: 9px;
+
+            font-family: inherit;
+            font-size: 14px;
+
+            background: #fff;
+            color: #172033;
+
+            transition: 0.2s;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+        }
+
+        .form-group input:disabled {
+            background: #f8fafc;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 6px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* =========================
+           SAVE BUTTON
+        ========================= */
+
+        .save-area {
+            margin-top: 8px;
+
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .save-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+
+            padding: 13px 25px;
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .save-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+
+            top: 90px;
+            right: 25px;
+
+            min-width: 280px;
+            max-width: 380px;
+
+            padding: 15px 18px;
+
+            border-radius: 10px;
+
+            background: #0f172a;
+            color: white;
+
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            display: none;
+
+            z-index: 9999;
+
+            animation: slideIn 0.25s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #22c55e;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #0f172a;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .profile-page {
+                padding: 40px 4% 60px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .profile-hero {
+                padding: 28px 22px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-hero-info h2 {
+                font-size: 24px;
+            }
+
+            .page-heading h1 {
+                font-size: 30px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .profile-card {
+                padding: 22px;
+            }
+
+            .nav-buttons .login-btn,
+            .nav-buttons .register-btn {
+                display: none;
+            }
+
+            .dashboard-btn,
+            .logout-btn {
+                padding: 9px 12px;
+            }
+
+            .toast {
+                left: 15px;
+                right: 15px;
+                top: 85px;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <a href="../index.html" class="logo">
+            Career<span>Connect</span>
+        </a>
+
+        <ul class="nav-links">
+            <li>
+                <a href="../index.html">Home</a>
+            </li>
+
+            <li>
+                <a href="jobs.html">Jobs</a>
+            </li>
+
+            <li>
+                <a href="profile.html" class="active">Profile</a>
+            </li>
+        </ul>
+
+        <div class="nav-buttons" id="navButtons">
+            <a href="login.html" class="login-btn">
+                Login
+            </a>
+
+            <a href="register.html" class="register-btn">
+                Register
+            </a>
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         PROFILE PAGE
+    ========================== -->
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+            <div class="page-heading">
+                <h1>My Profile</h1>
+                <p>
+                    Manage your personal information and professional profile.
+                </p>
+            </div>
+
+
+            <!-- PROFILE HERO -->
+
+            <section class="profile-hero">
+
+                <div class="photo-area">
+
+                    <div class="profile-photo">
+
+                        <img
+                            id="profileImage"
+                            alt="Profile picture"
+                        >
+
+                        <span
+                            class="profile-initial"
+                            id="profileInitial"
+                        >
+                            U
+                        </span>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="camera-button"
+                        id="cameraButton"
+                        title="Change profile photo"
+                    >
+                        📷
+                    </button>
+
+                </div>
+
+
+                <div class="profile-hero-info">
+
+                    <h2 id="heroName">
+                        User
+                    </h2>
+
+                    <div class="email" id="heroEmail">
+                        user@example.com
+                    </div>
+
+                    <span
+                        class="role-badge"
+                        id="heroRole"
+                    >
+                        Job Seeker
+                    </span>
+
+
+                    <div class="photo-controls">
+
+                        <label
+                            for="profileImageInput"
+                            class="upload-btn"
+                        >
+                            📷 Upload Photo
+                        </label>
+
+                        <button
+                            type="button"
+                            class="remove-photo-btn"
+                            id="removePhotoBtn"
+                        >
+                            🗑 Remove
+                        </button>
+
+                    </div>
+
+                    <div class="photo-help">
+                        JPG, PNG or WEBP • Maximum 2MB
+                    </div>
+
+                    <input
+                        type="file"
+                        id="profileImageInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- CONTENT -->
+
+            <div class="profile-grid">
+
+
+                <!-- PROFILE OVERVIEW -->
+
+                <section class="profile-card">
+
+                    <h2>Profile Overview</h2>
+
+                    <p class="card-subtitle">
+                        A quick overview of your CareerConnect profile.
+                    </p>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-label">
+                            Full Name
+                        </div>
+
+                        <div
+                            class="overview-value"
+                            id="overviewName"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-label">
+                            Email
+                        </div>
+
+                        <div
+                            class="overview-value"
+                            id="overviewEmail"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-label">
+                            Account Type
+                        </div>
+
+                        <div
+                            class="overview-value"
+                            id="overviewRole"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-label">
+                            Phone
+                        </div>
+
+                        <div
+                            class="overview-value"
+                            id="overviewPhone"
+                        >
+                            Not added
+                        </div>
+
+                    </div>
+
+
+                    <div class="overview-item">
+
+                        <div class="overview-label">
+                            Skills
+                        </div>
+
+                        <div
+                            class="overview-value"
+                            id="overviewSkills"
+                        >
+                            Not added
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- EDIT PROFILE -->
+
+                <section class="profile-card">
+
+                    <h2>Edit Profile</h2>
+
+                    <p class="card-subtitle">
+                        Keep your professional information up to date.
+                    </p>
+
+
+                    <form id="profileForm">
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="name">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    placeholder="Enter your full name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    Phone Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="phone"
+                                    placeholder="e.g. +880 1XXXXXXXXX"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                disabled
+                            >
+
+                            <span class="form-help">
+                                Email address cannot be changed from your profile.
+                            </span>
+
+                        </div>
+
+
+
+                        <div
+                            class="form-group"
+                            id="companyGroup"
+                        >
+
+                            <label for="company">
+                                Company
+                            </label>
+
+                            <input
+                                type="text"
+                                id="company"
+                                placeholder="Enter your company name"
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="skills">
+                                Skills
+                            </label>
+
+                            <input
+                                type="text"
+                                id="skills"
+                                placeholder="e.g. JavaScript, React, Node.js"
+                            >
+
+                            <span class="form-help">
+                                Separate multiple skills with commas.
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="bio">
+                                About You
+                            </label>
+
+                            <textarea
+                                id="bio"
+                                placeholder="Write a short professional bio..."
+                            ></textarea>
+
+                        </div>
+
+
+
+                        <div class="save-area">
+
+                            <button
+                                type="submit"
+                                class="save-btn"
+                                id="saveBtn"
+                            >
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>
+            © 2026 CareerConnect. All rights reserved.
+        </p>
+    </footer>
+
+
+    <script>
+
+        /* =========================
+           GET USER
+        ========================== */
+
+        const storedUser =
+            localStorage.getItem("user");
+
+        if (!storedUser) {
+
+            window.location.href = "login.html";
+
+        }
+
+        const user =
+            JSON.parse(storedUser);
+
+
+        /* =========================
+           ELEMENTS
+        ========================== */
+
+        const profileForm =
+            document.getElementById("profileForm");
+
+        const nameInput =
+            document.getElementById("name");
+
+        const emailInput =
+            document.getElementById("email");
+
+        const phoneInput =
+            document.getElementById("phone");
+
+        const skillsInput =
+            document.getElementById("skills");
+
+        const bioInput =
+            document.getElementById("bio");
+
+        const companyInput =
+            document.getElementById("company");
+
+        const companyGroup =
+            document.getElementById("companyGroup");
+
+        const saveBtn =
+            document.getElementById("saveBtn");
+
+        const profileImageInput =
+            document.getElementById("profileImageInput");
+
+        const profileImage =
+            document.getElementById("profileImage");
+
+        const profileInitial =
+            document.getElementById("profileInitial");
+
+        const cameraButton =
+            document.getElementById("cameraButton");
+
+        const removePhotoBtn =
+            document.getElementById("removePhotoBtn");
+
+
+        /* =========================
+           TOAST FUNCTION
+        ========================== */
+
+        function showToast(message, type = "success") {
+
+            const toast =
+                document.getElementById("toast");
+
+            toast.textContent = message;
+
+            toast.className =
+                "toast " + type;
+
+            toast.style.display = "block";
+
+
+            setTimeout(() => {
+
+                toast.style.display = "none";
+
+            }, 3000);
+        }
+
+
+        /* =========================
+           PROFILE PHOTO
+        ========================== */
+
+        const photoStorageKey =
+            "profilePhoto_" + user.id;
+
+
+        function loadProfilePhoto() {
+
+            const savedPhoto =
+                localStorage.getItem(photoStorageKey);
+
+            if (savedPhoto) {
+
+                profileImage.src = savedPhoto;
+
+                profileImage.style.display = "block";
+
+                profileInitial.style.display = "none";
+
+            } else {
+
+                profileImage.style.display = "none";
+
+                profileInitial.style.display = "block";
+
+            }
+        }
+
+
+        function saveProfilePhoto(imageData) {
+
+            localStorage.setItem(
+                photoStorageKey,
+                imageData
+            );
+
+            profileImage.src = imageData;
+
+            profileImage.style.display = "block";
+
+            profileInitial.style.display = "none";
+        }
+
+
+        function removeProfilePhoto() {
+
+            localStorage.removeItem(
+                photoStorageKey
+            );
+
+            profileImage.removeAttribute("src");
+
+            profileImage.style.display = "none";
+
+            profileInitial.style.display = "block";
+
+            showToast(
+                "Profile photo removed.",
+                "success"
+            );
+        }
+
+
+        profileImageInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                /* File type validation */
+
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ];
+
+                if (
+                    !allowedTypes.includes(
+                        file.type
+                    )
+                ) {
+
+                    showToast(
+                        "Please choose a JPG, PNG or WEBP image.",
+                        "error"
+                    );
+
+                    this.value = "";
+
+                    return;
+                }
+
+
+                /* File size validation */
+
+                const maxSize =
+                    2 * 1024 * 1024;
+
+                if (file.size > maxSize) {
+
+                    showToast(
+                        "Image size must be less than 2MB.",
+                        "error"
+                    );
+
+                    this.value = "";
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload = function (event) {
+
+                    saveProfilePhoto(
+                        event.target.result
+                    );
+
+                    showToast(
+                        "Profile photo updated.",
+                        "success"
+                    );
+
+                };
+
+
+                reader.readAsDataURL(file);
+
+                this.value = "";
+
+            }
+        );
+
+
+        cameraButton.addEventListener(
+            "click",
+            function () {
+
+                profileImageInput.click();
+
+            }
+        );
+
+
+        removePhotoBtn.addEventListener(
+            "click",
+            function () {
+
+                const savedPhoto =
+                    localStorage.getItem(
+                        photoStorageKey
+                    );
+
+                if (!savedPhoto) {
+
+                    showToast(
+                        "No profile photo to remove.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                removeProfilePhoto();
+
+            }
+        );
+
+
+        /* =========================
+           INITIAL DATA
+        ========================== */
+
+        function loadProfileData() {
+
+            nameInput.value =
+                user.name || "";
+
+            emailInput.value =
+                user.email || "";
+
+            phoneInput.value =
+                user.phone || "";
+
+            skillsInput.value =
+                user.skills || "";
+
+            bioInput.value =
+                user.bio || "";
+
+            companyInput.value =
+                user.company || "";
+
+
+            /* Hero */
+
+            document.getElementById(
+                "heroName"
+            ).textContent =
+                user.name || "User";
+
+
+            document.getElementById(
+                "heroEmail"
+            ).textContent =
+                user.email || "";
+
+
+            const roleText =
+                user.role === "employer"
+                    ? "Employer"
+                    : "Job Seeker";
+
+
+            document.getElementById(
+                "heroRole"
+            ).textContent =
+                roleText;
+
+
+            /* Initial */
+
+            const name =
+                user.name || "User";
+
+            profileInitial.textContent =
+                name
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            /* Overview */
+
+            document.getElementById(
+                "overviewName"
+            ).textContent =
+                user.name || "—";
+
+
+            document.getElementById(
+                "overviewEmail"
+            ).textContent =
+                user.email || "—";
+
+
+            document.getElementById(
+                "overviewRole"
+            ).textContent =
+                roleText;
+
+
+            document.getElementById(
+                "overviewPhone"
+            ).textContent =
+                user.phone || "Not added";
+
+
+            document.getElementById(
+                "overviewSkills"
+            ).textContent =
+                user.skills || "Not added";
+
+
+            /* Employer / Job Seeker */
+
+            if (user.role === "employer") {
+
+                companyGroup.style.display =
+                    "block";
+
+            } else {
+
+                companyGroup.style.display =
+                    "none";
+
+            }
+
+
+            /* Load photo */
+
+            loadProfilePhoto();
+        }
+
+
+        /* =========================
+           SAVE PROFILE
+        ========================== */
+
+        profileForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    nameInput.value.trim();
+
+                const phone =
+                    phoneInput.value.trim();
+
+                const skills =
+                    skillsInput.value.trim();
+
+                const bio =
+                    bioInput.value.trim();
+
+                const company =
+                    companyInput.value.trim();
+
+
+                if (!name) {
+
+                    showToast(
+                        "Please enter your name.",
+                        "error"
+                    );
+
+                    nameInput.focus();
+
+                    return;
+                }
+
+
+                saveBtn.disabled = true;
+
+                saveBtn.textContent =
+                    "Saving...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `http://localhost:5000/api/users/${user.id}/profile`,
+                            {
+                                method: "PUT",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    name,
+                                    phone,
+                                    skills,
+                                    bio,
+                                    company
+
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            "Profile update failed."
+                        );
+
+                    }
+
+
+                    /* Update localStorage */
+
+                    const updatedUser = {
+
+                        ...user,
+
+                        name:
+                            data.user.name,
+
+                        email:
+                            data.user.email,
+
+                        role:
+                            data.user.role,
+
+                        phone:
+                            data.user.phone,
+
+                        skills:
+                            data.user.skills,
+
+                        bio:
+                            data.user.bio,
+
+                        company:
+                            data.user.company
+
+                    };
+
+
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(
+                            updatedUser
+                        )
+                    );
+
+
+                    /* Update current user */
+
+                    Object.assign(
+                        user,
+                        updatedUser
+                    );
+
+
+                    /* Refresh UI */
+
+                    loadProfileData();
+
+
+                    showToast(
+                        "Profile updated successfully!",
+                        "success"
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Profile update error:",
+                        error
+                    );
+
+
+                    showToast(
+                        error.message ||
+                        "Something went wrong.",
+                        "error"
+                    );
+
+
+                } finally {
+
+                    saveBtn.disabled = false;
+
+                    saveBtn.textContent =
+                        "Save Changes";
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           DYNAMIC NAVBAR
+        ========================== */
+
+        const navButtons =
+            document.getElementById(
+                "navButtons"
+            );
+
+
+        if (user) {
+
+            const dashboardPage =
+                user.role === "employer"
+                    ? "employer-dashboard.html"
+                    : "job-seeker-dashboard.html";
+
+
+            navButtons.innerHTML = `
+
+                <a
+                    href="${dashboardPage}"
+                    class="dashboard-btn"
+                >
+                    Dashboard
+                </a>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            `;
+
+
+            document
+                .getElementById("logoutBtn")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        localStorage.removeItem(
+                            "user"
+                        );
+
+                        window.location.href =
+                            "login.html";
+
+                    }
+                );
+
+        }
+
+
+        /* =========================
+           LOAD PAGE
+        ========================== */
+
+        loadProfileData();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerConnect - Find Your Future</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">CareerConnect</div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pages/jobs.html">Jobs</a></li>
+                
+            </ul>
+
+            <div class="nav-buttons">
+                <a href="pages/login.html" class="login-btn">Login</a>
+                <a href="pages/register.html" class="register-btn">Register</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <p class="hero-small-title">YOUR CAREER STARTS HERE</p>
+
+                <h1>
+                    Find Your Dream
+                    <span>Job or Internship</span>
+                </h1>
+
+                <p class="hero-description">
+                    Discover opportunities, connect with companies,
+                    and take the next step toward your career.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="pages/jobs.html" class="primary-btn">
+                        Browse Jobs
+                    </a>
+
+                    <a href="pages/register.html" class="secondary-btn">
+                        Create Account
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="features">
+
+            <h2>Why CareerConnect?</h2>
+
+            <div class="feature-container">
+
+                <div class="feature-card">
+                    <h3>🔍 Find Opportunities</h3>
+                    <p>
+                        Search for jobs and internships
+                        that match your skills and interests.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🏢 Connect With Companies</h3>
+                    <p>
+                        Discover companies and explore
+                        exciting career opportunities.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🚀 Build Your Career</h3>
+                    <p>
+                        Apply for opportunities and
+                        move closer to your career goals.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>© 2026 CareerConnect. All rights reserved.</p>
+    </footer>
+<script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const navButtons = document.querySelector(".nav-buttons");
+
+    if (user) {
+        const dashboardPage =
+            user.role === "employer"
+                ? "pages/employer-dashboard.html"
+                : "pages/job-seeker-dashboard.html";
+
+        navButtons.innerHTML = `
+            <a href="${dashboardPage}" class="login-btn">
+                Dashboard
+            </a>
+
+            <button class="register-btn" id="logoutBtn">
+                Logout
+            </button>
+        `;
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener("click", function () {
+                localStorage.removeItem("user");
+                window.location.href = "index.html";
+            });
+    }
+</script>
+</body>
+</html>
