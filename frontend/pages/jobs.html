@@ -423,10 +423,9 @@
         try {
 
             const response =
-                await fetch(
-                    "http://localhost:5000/api/jobs"
-                );
-
+               await fetch(
+    "https://careerconnect-ijro.onrender.com/api/jobs"
+);
 
             const data =
                 await response.json();
@@ -787,8 +786,8 @@
 
             const response =
                 await fetch(
-                    `http://localhost:5000/api/saved-jobs/${currentUser.id}`
-                );
+    `https://careerconnect-ijro.onrender.com/api/saved-jobs/${currentUser.id}`
+);
 
 
             const data =
@@ -960,8 +959,8 @@
         try {
 
             const response =
-                await fetch(
-                    "http://localhost:5000/api/saved-jobs",
+               await fetch(
+    "https://careerconnect-ijro.onrender.com/api/saved-jobs",
                     {
                         method: "POST",
 
