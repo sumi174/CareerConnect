@@ -28,7 +28,167 @@
             background: #f6f8fb;
         }
 
+        /* =========================================
+   HEADER / NAVBAR
+========================================= */
 
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+header nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 68px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+/* ---------- LOGO ---------- */
+
+header .logo a {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2563eb;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    transition: opacity 0.2s;
+}
+
+header .logo a:hover {
+    opacity: 0.85;
+}
+
+/* ---------- NAV LINKS ---------- */
+
+header .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+}
+
+header .nav-links a {
+    position: relative;
+
+    padding: 8px 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #4b5563;
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    transition:
+        color 0.2s,
+        background 0.2s;
+}
+
+header .nav-links a:hover {
+    color: #2563eb;
+    background: #f3f4f6;
+}
+
+/* subtle underline on hover */
+
+header .nav-links a::after {
+    content: "";
+    position: absolute;
+
+    left: 14px;
+    right: 14px;
+    bottom: 4px;
+
+    height: 2px;
+
+    background: #2563eb;
+
+    border-radius: 2px;
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.25s ease;
+}
+
+header .nav-links a:hover::after {
+    transform: scaleX(1);
+}
+
+/* ---------- NAV BUTTONS (Logout) ---------- */
+
+header .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .nav-buttons .login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 18px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #dc2626;
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.15s;
+}
+
+header .nav-buttons .login-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    transform: translateY(-1px);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+    header .nav-links {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    header nav {
+        height: 60px;
+        padding: 0 14px;
+    }
+
+    header .logo a {
+        font-size: 19px;
+    }
+
+    header .nav-buttons .login-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
         /* =========================================
            DASHBOARD
         ========================================= */
