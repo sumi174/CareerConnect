@@ -383,6 +383,7 @@ app.post(
                 company,
                 location,
                 salary,
+                jobType,
                 description,
                 requirements,
                 postedBy
@@ -449,6 +450,7 @@ app.post(
                         salary
                             ? salary.trim()
                             : "",
+                    jobType: jobType || "Full-time",        
 
                     description:
                         description.trim(),

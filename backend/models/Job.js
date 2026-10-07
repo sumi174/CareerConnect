@@ -35,6 +35,11 @@ const jobSchema = new mongoose.Schema(
             type: String,
             trim: true
         },
+        jobType: {
+      type: String,
+      enum: ["Full-time", "Part-time", "Contract", "Freelance", "Internship", "Remote"],
+      default: "Full-time"
+    },
 
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,

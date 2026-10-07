@@ -50,21 +50,6 @@
             </li>
 
 
-            <li>
-                <a href="#"
-                   onclick="return false;">
-                    About
-                </a>
-            </li>
-
-
-            <li>
-                <a href="#"
-                   onclick="return false;">
-                    Contact
-                </a>
-            </li>
-
         </ul>
 
 
@@ -368,8 +353,8 @@
                     </div>
 
                     <span class="job-type">
-                        Full Time
-                    </span>
+    ${job.jobType || "Full Time"}
+</span>
 
                 </div>
 
@@ -388,8 +373,8 @@
                     </span>
 
                     <span>
-                        🕒 Full Time
-                    </span>
+    🕒 ${job.jobType || "Full Time"}
+</span>
 
                 </div>
 

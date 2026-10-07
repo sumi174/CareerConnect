@@ -1746,6 +1746,19 @@
                             >
 
                         </div>
+                        <div class="form-group">
+    <label for="jobType">
+        Job Type
+    </label>
+    <select id="jobType" required>
+        <option value="" disabled selected>Select job type</option>
+        <option value="Full-time">Full-time</option>
+        <option value="Part-time">Part-time</option>
+        <option value="Remote">Remote</option>
+        <option value="Contract">Contract</option>
+        <option value="Internship">Internship</option>
+    </select>
+</div>
 
 
                         <div class="form-group">
@@ -2628,130 +2641,91 @@
         /* ================= RENDER JOBS ================= */
 
         function renderJobs() {
+    const container = document.getElementById("myJobsContainer");
 
-            const container =
-                document.getElementById(
-                    "myJobsContainer"
-                );
+    if (!allJobs.length) {
+        container.innerHTML = `<div class="empty-state">
+            <div class="empty-icon">💼</div>
+            <h3>No job postings yet</h3>
+            <p>Post your first job to start receiving applications.</p>
+        </div>`;
+        return;
+    }
 
-            if (!allJobs.length) {
+    container.innerHTML = `<div class="job-list">
+        ${allJobs.map(job => {
+            const jobId = getId(job._id) || getId(job.id);
+            const description = job.description || "";
 
-                container.innerHTML =
-                    `<div class="empty-state">
-
-                        <div class="empty-icon">
-                            💼
+            return `
+                <article class="job-card">
+                    <div class="job-info">
+                        <div class="job-title">
+                            ${escapeHTML(job.title)}
+                        </div>
+                        <div class="job-company">
+                            ${escapeHTML(job.company)}
                         </div>
 
-                        <h3>
-                            No job postings yet
-                        </h3>
+                        <div class="job-meta">
+                            <span>
+                                📍 ${escapeHTML(job.location)}
+                            </span>
 
-                        <p>
-                            Post your first job to start receiving applications.
-                        </p>
+                            ${
+                                job.jobType
+                                    ? `<span>⏰ ${escapeHTML(job.jobType)}</span>`
+                                    : ""
+                            }
 
-                    </div>`;
+                            ${
+                                job.salary
+                                    ? `<span>💰 ${escapeHTML(job.salary)}</span>`
+                                    : ""
+                            }
 
-                return;
+                            <span>
+                                📅 ${formatDate(job.createdAt)}
+                            </span>
+                        </div>
 
-            }
+                        <div class="job-description-preview">
+                            ${escapeHTML(
+                                description.length > 180
+                                    ? description.substring(0, 180) + "..."
+                                    : description
+                            )}
+                        </div>
 
+                        <span
+                            class="application-count"
+                            data-job-application-count="${jobId}"
+                        >
+                            Applications
+                        </span>
+                    </div>
 
-            container.innerHTML =
-                `<div class="job-list">
+                    <div class="job-actions">
+                        <button
+                            class="job-action-btn"
+                            onclick="viewJob('${jobId}')"
+                        >
+                            View Job
+                        </button>
+                        <button
+                            class="job-action-btn delete-btn"
+                            onclick="openDeleteModal('${jobId}')"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </article>
+            `;
+        }).join("")}
+    </div>`;
 
-                    ${allJobs.map(job => {
-
-                        const jobId =
-                            getId(job._id) ||
-                            getId(job.id);
-
-                        const description =
-                            job.description || "";
-
-                        return `
-                            <article class="job-card">
-
-                                <div class="job-info">
-
-                                    <div class="job-title">
-                                        ${escapeHTML(job.title)}
-                                    </div>
-
-                                    <div class="job-company">
-                                        ${escapeHTML(job.company)}
-                                    </div>
-
-                                    <div class="job-meta">
-
-                                        <span>
-                                            📍 ${escapeHTML(job.location)}
-                                        </span>
-
-                                        ${
-                                            job.salary
-                                                ? `<span>
-                                                    💰 ${escapeHTML(job.salary)}
-                                                   </span>`
-                                                : ""
-                                        }
-
-                                        <span>
-                                            📅 ${formatDate(job.createdAt)}
-                                        </span>
-
-                                    </div>
-
-                                    <div class="job-description-preview">
-
-                                        ${escapeHTML(
-                                            description.length > 180
-                                                ? description.substring(0, 180) + "..."
-                                                : description
-                                        )}
-
-                                    </div>
-
-                                    <span
-                                        class="application-count"
-                                        data-job-application-count="${jobId}"
-                                    >
-                                        Applications
-                                    </span>
-
-                                </div>
-
-
-                                <div class="job-actions">
-
-                                    <button
-                                        class="job-action-btn"
-                                        onclick="viewJob('${jobId}')"
-                                    >
-                                        View Job
-                                    </button>
-
-                                    <button
-                                        class="job-action-btn delete-btn"
-                                        onclick="openDeleteModal('${jobId}')"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-
-                            </article>
-                        `;
-
-                    }).join("")}
-
-                </div>`;
-
-            updateJobApplicationCounts();
-
-        }
-
+    updateJobApplicationCounts();
+}
 
         /* ================= VIEW JOB ================= */
 
@@ -4812,6 +4786,10 @@
                             .getElementById("requirements")
                             .value
                             .trim();
+                    const jobType =
+    document
+        .getElementById("jobType")
+        .value;        
 
 
                     if (
@@ -4859,6 +4837,8 @@
                                         location,
 
                                         salary,
+                                        
+                                        jobType,
 
                                         description,
 
